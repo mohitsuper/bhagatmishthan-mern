@@ -20,7 +20,7 @@ mongoose.connect(url)
 
 
 app.use('/api',router)
-// app.use('/upload', express.static('upload'));
+app.use('/upload', express.static('upload'));
 app.listen(port, ()=>{
     console.log(`server is running on port ${port}`)
 })

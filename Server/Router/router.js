@@ -13,7 +13,7 @@ const { ProductImageUplode } = require('../Middelware/ProductImage');
 const { PostCategory, Category, CategoryDelete, CategoryUpdate, GetCategory } = require('../Controller/Category/Category');
 const { CategoryUplode } = require('../Middelware/ImageUplode/CategoryImage');
 const { PostProductType, ProductType, DeleteProductType, UpdateProductType, GetProductType } = require('../Controller/product-type/ProductType');
-const {upload} = require('../Middelware/multer')
+const upload = require("../Middelware/multer");
 //topbar start 
 router.get('/topbar',TopBar)
 router.get('/web/topbar',TopBarGetWeb);
