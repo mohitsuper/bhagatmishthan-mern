@@ -1,10 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongoose  = require('mongoose');
 const cors = require('cors');
 const router = require('./Router/router');
+const port = process.env.SERVER_PORT || 3000
+
 app.use(cors())
-require('dotenv').config();
 app.use(express.json());
 const url = `${process.env.LOCAL_BASEURL}`
 
@@ -18,7 +20,7 @@ mongoose.connect(url)
 
 
 app.use('/api',router)
-app.use('/upload', express.static('upload'));
-app.listen(3000, ()=>{
-    console.log("server is running on port 3000")
+// app.use('/upload', express.static('upload'));
+app.listen(port, ()=>{
+    console.log(`server is running on port ${port}`)
 })

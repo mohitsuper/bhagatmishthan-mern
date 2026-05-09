@@ -38,7 +38,7 @@ const GetHeroBanner = async (req, res) => {
 const PostHeroBanner = (req, res) => {
     try {
         const data = new HeroImage({
-            image: `http://localhost:3000/upload/Hero/${req.file.filename}`
+            image: req.file.path
         })
         data.save()
         res.send({
@@ -101,7 +101,7 @@ const HeroBannerUpdate = async (req, res) => {
                 fs.unlinkSync(pathName)
                 console.log("old image delete")
             }
-            imageUrl = `http://localhost:3000/upload/Hero/${image}`;
+            imageUrl = image;
         }
 
         const updateHeroObj = {};

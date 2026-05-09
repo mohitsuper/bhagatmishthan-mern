@@ -43,7 +43,7 @@ const PostCategory = async (req, res) => {
         const image = req.file.filename;
         const data = new CategoryImage({
             name,
-            image: `http://localhost:3000/upload/category/${image}`
+            image: image
         })
         const responce = await data.save()
         res.send({
@@ -103,7 +103,7 @@ const CategoryUpdate = async (req, res) => {
             }
         }
         if(image){
-            UpdateObj.image = `http://localhost:3000/upload/category/${image}`;
+            UpdateObj.image = image;
         }
         UpdateObj = {isActive,name}
         const responce = await CategoryImage.updateOne(

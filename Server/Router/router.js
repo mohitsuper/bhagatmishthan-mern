@@ -13,6 +13,7 @@ const { ProductImageUplode } = require('../Middelware/ProductImage');
 const { PostCategory, Category, CategoryDelete, CategoryUpdate, GetCategory } = require('../Controller/Category/Category');
 const { CategoryUplode } = require('../Middelware/ImageUplode/CategoryImage');
 const { PostProductType, ProductType, DeleteProductType, UpdateProductType, GetProductType } = require('../Controller/product-type/ProductType');
+const { default: upload } = require('../Middelware/multer');
 //topbar start 
 router.get('/topbar',TopBar)
 router.get('/web/topbar',TopBarGetWeb);
@@ -26,18 +27,18 @@ router.put('/update/topbar',TopbarUpdate)
 //banner hero image api start
 router.get('/banner',HeroBanner)
 router.get('/web/banner',GetHeroBanner)
-router.post('/post/banner',HeroUplode.single('image'),PostHeroBanner)
+router.post('/post/banner',upload.single('image'),PostHeroBanner)
 router.delete('/delete/banner/:id',HeroBannerDelete)
-router.put('/update/banner',HeroUplode.single('image'),HeroBannerUpdate)
+router.put('/update/banner',upload.single('image'),HeroBannerUpdate)
 //banner hero image api end
 
 
 //category section api start
 router.get('/category',Category)
 router.get('/web/category',GetCategory)
-router.post('/post/category',CategoryUplode.single('image'),PostCategory)
+router.post('/post/category',upload.single('image'),PostCategory)
 router.delete('/delete/category/:id',CategoryDelete)
-router.put('/update/category/:id',CategoryUplode.single('image'),CategoryUpdate)
+router.put('/update/category/:id',upload.single('image'),CategoryUpdate)
 //category section api end
 
 
