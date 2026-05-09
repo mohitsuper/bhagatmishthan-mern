@@ -13,7 +13,7 @@ const { ProductImageUplode } = require('../Middelware/ProductImage');
 const { PostCategory, Category, CategoryDelete, CategoryUpdate, GetCategory } = require('../Controller/Category/Category');
 const { CategoryUplode } = require('../Middelware/ImageUplode/CategoryImage');
 const { PostProductType, ProductType, DeleteProductType, UpdateProductType, GetProductType } = require('../Controller/product-type/ProductType');
-const { default: upload } = require('../Middelware/multer');
+import upload from "../Middelware/multer.js";
 //topbar start 
 router.get('/topbar',TopBar)
 router.get('/web/topbar',TopBarGetWeb);
