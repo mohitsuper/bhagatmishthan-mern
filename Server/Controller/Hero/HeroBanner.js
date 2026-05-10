@@ -96,7 +96,7 @@ const HeroBannerUpdate = async (req, res) => {
         const { id, isActive } = req.body;
         let imageUrl;
         if(req.file){
-            const image = req.file.filename;
+            const image = req.file.path;
             const UpdateImageFind = await HeroImage.findById(id)
             const updateImageName = UpdateImageFind.image.split('/')[5];
             const pathName = path.join('upload/hero', updateImageName)

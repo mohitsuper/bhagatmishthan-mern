@@ -4,7 +4,7 @@ const Hero =async(req,res)=>{
     console.log(req.file.filename)
     try{
         const reponce = await Image({
-            image:`/upload/${req.file.filename}`
+            image:`/upload/${req.file.path}`
         })
         const data = await reponce.save();
         res.json({ message: "Image uploaded successfully", data });

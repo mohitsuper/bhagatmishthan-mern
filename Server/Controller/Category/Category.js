@@ -89,7 +89,7 @@ const CategoryDelete = async (req, res) => {
 const CategoryUpdate = async (req, res) => {
     const {id} = req.params;
     const { name, isActive } = req.body;
-    const image = req.file && req.file.filename;
+    const image = req.file && req.file.path;
     let UpdateObj;
     try {
         if(image){
