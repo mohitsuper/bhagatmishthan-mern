@@ -109,6 +109,7 @@ export const SinginUserData = async () => {
 // ==============================
 
 export const PostHeroBanner = async (data) => {
+  console.log('data',await data)
   try {
     const url = `${localurl}/api/post/banner`;
 

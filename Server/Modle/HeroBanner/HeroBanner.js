@@ -1,6 +1,9 @@
 const { default: mongoose } = require("mongoose");
 const HeroImageSchema = mongoose.Schema({
     image:String,
+    title:String,
+    subtitle:String,
+    desc:String,
     isActive:{
         type:Boolean,
         default:true

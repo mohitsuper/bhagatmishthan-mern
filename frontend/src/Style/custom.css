@@ -63,3 +63,8 @@ nav ul li:hover i{
     }
 
 }
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: white !important;
+}

@@ -3,83 +3,152 @@ import { FavouriteContext } from "../../UseContext/FavouriteCardContext";
 import { GetCard } from "../../Api/Api";
 
 export default function FavouriteCard() {
-  const { favisOpen, setFavIsOpen, favouriteData, setFavouriteData } =
-    useContext(FavouriteContext);
+
+  const {
+    favisOpen,
+    setFavIsOpen,
+    favouriteData,
+    setFavouriteData,
+  } = useContext(FavouriteContext);
 
   useEffect(() => {
+
     if (!favisOpen) return;
 
     const fetchApiData = async () => {
       const data = await GetCard();
-      setFavouriteData(data);
+      setFavouriteData(data || []);
     };
 
     fetchApiData();
+
   }, [favisOpen]);
 
   if (!favisOpen) return null;
 
   return (
-    <div>
+    <>
+
       {/* Overlay */}
       <div
         onClick={() => setFavIsOpen(false)}
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
       />
 
       {/* Sidebar */}
-      <div className="fixed top-0 right-0 h-full w-[340px] bg-white shadow-2xl z-50 flex flex-col border-l border-[#851AD6]">
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 bg-[#000000] text-white border-b border-[#851AD6]">
-          <h2 className="text-lg font-semibold flex items-center gap-2">
-            <i className="fa-solid fa-heart text-[#851AD6]"></i>
-            <span>Favourite Items</span>
-          </h2>
+      <div className="fixed top-0 right-0 h-screen w-full sm:w-[400px] bg-white z-50 shadow-2xl flex flex-col border-l border-red-200">
 
-          <button
-            onClick={() => setFavIsOpen(false)}
-            className="hover:scale-110 transition"
-          >
-            <i className="fa-solid fa-xmark text-white"></i>
-          </button>
+        {/* Header */}
+        <div className="relative overflow-hidden p-6 border-b border-red-200 bg-gradient-to-r from-black via-[#3b0a0a] to-[#851AD6]">
+
+          {/* Glow */}
+          <div className="absolute -top-10 -right-10 w-40 h-40 bg-red-500/20 blur-3xl rounded-full"></div>
+
+          <div className="relative z-10 flex items-start justify-between">
+
+            <div>
+
+              <div className="flex items-center gap-3">
+
+                <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                  <i className="fa-solid fa-heart text-red-400 text-lg"></i>
+                </div>
+
+                <div>
+
+                  <h2 className="text-2xl font-bold text-white">
+                    Favourite Items
+                  </h2>
+
+                  <p className="text-gray-200 text-sm mt-1">
+                    {favouriteData?.length} saved item
+                    {favouriteData?.length !== 1 ? "s" : ""}
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Close */}
+            <button
+              onClick={() => setFavIsOpen(false)}
+              className="w-10 h-10 rounded-full bg-white/10 hover:bg-red-500 border border-white/20 flex items-center justify-center transition-all duration-300"
+            >
+              <i className="fa-solid fa-xmark text-white"></i>
+            </button>
+
+          </div>
+
         </div>
 
         {/* Items */}
-        <div className="flex-1 overflow-y-auto p-3 space-y-3 bg-white">
+        <div className="flex-1 overflow-y-auto px-5 py-6 space-y-5 bg-white">
+
           {favouriteData.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-gray-500">
-              <i className="fa-regular fa-heart text-4xl text-[#851AD6] mb-2"></i>
-              <p className="text-sm">No favourite items yet</p>
+
+            <div className="h-full flex flex-col items-center justify-center text-center">
+
+              <div className="w-24 h-24 rounded-full bg-red-100 flex items-center justify-center">
+                <i className="fa-regular fa-heart text-4xl text-red-500"></i>
+              </div>
+
+              <h3 className="text-xl font-bold text-black mt-5">
+                No Favourite Items
+              </h3>
+
+              <p className="text-gray-500 mt-2 text-sm">
+                Save products you love ❤️
+              </p>
+
             </div>
+
           ) : (
+
             favouriteData.map((item, index) => (
+
               <div
                 key={index}
-                className="flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-white hover:shadow-lg hover:border-[#851AD6] transition"
+                className="group relative flex gap-4 bg-zinc-50 hover:bg-red-50 border border-zinc-200 hover:border-red-200 rounded-2xl p-4 transition-all duration-300"
               >
-                {/* Image */}
-                <img
-                  src={item?.Image || "https://via.placeholder.com/80"}
-                  alt={item?.name}
-                  className="h-14 w-14 object-cover rounded-lg border"
-                  onError={(e) => {
-                    e.target.src = "/no-image.jpg";
-                  }}
-                />
 
-                {/* Info */}
-                <div className="flex-1">
-                  <h5 className="text-sm font-semibold text-[#000000]">
+                {/* Image */}
+                <div className="overflow-hidden rounded-xl">
+
+                  <img
+                    src={item?.Image || "https://via.placeholder.com/80"}
+                    alt={item?.name}
+                    className="h-24 w-24 object-cover rounded-xl group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      e.target.src = "/no-image.jpg";
+                    }}
+                  />
+
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col justify-center flex-1">
+
+                  <h5 className="text-lg font-bold text-black">
                     {item?.name}
                   </h5>
 
-                  <p className="text-sm font-medium text-[#851AD6]">
-                    ₹{item?.price}
+                  <p className="text-sm text-gray-500 mt-1">
+                    Premium Favourite Product
                   </p>
+
+                  <span className="text-red-500 font-bold text-lg mt-2">
+                    ₹ {item?.price}
+                  </span>
+
                 </div>
 
-                {/* Heart Icon */}
-                <i className="fa-solid fa-heart text-[#851AD6]"></i>
+                {/* Heart */}
+                <div className="absolute top-4 right-4">
+                  <i className="fa-solid fa-heart text-red-500"></i>
+                </div>
+
               </div>
             ))
           )}
@@ -87,14 +156,21 @@ export default function FavouriteCard() {
 
         {/* Footer */}
         {favouriteData.length > 0 && (
-          <div className="p-4 border-t border-[#851AD6] bg-[#000000]">
-            <button className="w-full bg-[#851AD6] text-white py-3 rounded-xl font-medium hover:opacity-90 transition flex items-center justify-center gap-2">
-              <i className="fa-solid fa-cart-shopping"></i>
-              Checkout
+
+          <div className="border-t border-red-100 p-6 bg-white">
+
+            <button className="w-full bg-red-500 hover:bg-black text-white py-4 rounded-2xl font-semibold transition-all duration-300 flex items-center justify-center gap-3">
+
+              <i className="fa-solid fa-heart"></i>
+
+              View Favourite Products
+
             </button>
+
           </div>
         )}
+
       </div>
-    </div>
+    </>
   );
 }

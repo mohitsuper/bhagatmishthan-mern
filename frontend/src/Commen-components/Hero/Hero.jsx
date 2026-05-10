@@ -85,30 +85,18 @@ export default function Hero() {
                   <div className="max-w-[650px] text-white">
 
                     <p className="uppercase tracking-[5px] text-sm mb-4 text-purple-300 font-semibold">
-                      Premium Collection
+                      {item.subtitle || ''}
                     </p>
 
                     <h1 className="text-6xl font-bold leading-tight mb-6">
-                      Discover The Latest Fashion Trends
+{item.title || ''}
                     </h1>
 
                     <p className="text-lg text-zinc-200 mb-8 leading-relaxed">
-                      Explore our newest arrivals with premium quality and
-                      modern style made for everyday fashion.
+                       {item.desc || ''}
                     </p>
 
-                    {/* BUTTONS */}
-                    <div className="flex items-center gap-5">
 
-                      <button className="bg-purple-600 hover:bg-purple-700 duration-300 px-8 py-4 rounded-full text-white font-semibold">
-                        Shop Now
-                      </button>
-
-                      <button className="border border-white hover:bg-white hover:text-black duration-300 px-8 py-4 rounded-full font-semibold">
-                        Explore More
-                      </button>
-
-                    </div>
                   </div>
                 </div>
               </div>

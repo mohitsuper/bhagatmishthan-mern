@@ -37,7 +37,17 @@ export const GetUserInfo = async()=>{
     }
 }
 
-
+export const LoginUser = async ()=>{
+        try{
+        const responce = await axios.post(`${baseurl}/login`,data)
+        toast.success('Login successfull')
+        return responce.data.data || [];
+    }
+    catch(error){
+        toast.error('Login failed')
+        console.log("user inforamtion get error:",error)
+    }
+}
 export const PostCard = async (data)=>{
     try{
         const responce = await axios.post(`${baseurl}/post/card`,data)
@@ -101,7 +111,8 @@ export const GetBestSeller = async ()=>{
 export const GetCategory = async ()=>{
     try{
         const responce = await axios.get(`${baseurl}/web/category`)
-        return responce.data.data;
+        console.log('abc',responce.data.data)
+        return responce.data.data || [];
     }
     catch(error){
         console.log('category data get failed')

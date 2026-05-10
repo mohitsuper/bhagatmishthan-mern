@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { TopBar, TopbarPost, TopbarDelete, TopbarUpdate, TopBarGetWeb } = require('../Controller/Topbar/Topbar');
-const { singupPost, singup } = require('../Controller/User/Singup');
+const { singupPost, singup, loginPost } = require('../Controller/User/Singup');
 const { Card, PostCard, DeleteCard } = require('../Controller/Card/Card');
 const { Cardupload } = require('../Middelware/ImageUplode/CardImages');
 const { Favourite, PostFavourite } = require('../Controller/Federated/Federated');
@@ -53,6 +53,7 @@ router.put('/update/product-type',UpdateProductType)
 //singin start
 router.get('/singup',singup)
 router.post('/post/singup' ,singupPost)
+router.post('/post/login' ,loginPost)
 //singin end
 
 

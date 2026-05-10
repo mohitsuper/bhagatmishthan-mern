@@ -6,145 +6,316 @@ import {
   UpdateProductType,
 } from "../../api/api";
 
+// shadcn ui
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import {
+  Pencil,
+  Trash2,
+  Eye,
+  EyeOff,
+  Layers3,
+  BadgePlus,
+} from "lucide-react";
+
 export default function ProductType() {
   const [text, setText] = useState("");
   const [ProductTypeData, setProductTypeData] = useState([]);
   const [isReloade, setIsReloade] = useState(false);
-  const [isActive, setIsActive] = useState(true);
-  const [isActiveId,setIsActiveId] = useState(null)
   const [updateId, setUpdateId] = useState(null);
+
+  // fetch data
   useEffect(() => {
     fetchProductTypeData();
   }, [isReloade]);
 
-  //get all the ProductTypedata
   async function fetchProductTypeData() {
     const response = await GetProductType();
+
     setProductTypeData(response || []);
   }
 
-  //delte ProductType data
+  // delete
   const ProductTypeDeleteItem = async (id) => {
-    alert(id)
+    const confirmDelete = window.confirm(
+      "Are You Sure Delete Product Type?"
+    );
+
+    if (!confirmDelete) return;
+
     await DeleteProductType(id);
+
     setIsReloade(!isReloade);
   };
 
-  //post & update handle ProductType data
-
+  // add/update
   const HandelPostUpdate = async (e) => {
     e.preventDefault();
+
+    if (!text.trim()) return;
+
     if (updateId) {
-      await UpdateProductType(updateId,{name:text});
-      fetchProductTypeData();
-      setText("");
-    } 
-    else {
+      await UpdateProductType(updateId, {
+        name: text,
+      });
+
+      alert("Product Type Updated Successfully");
+    } else {
       await PostProductType(text);
-      setUpdateId(null)
+
+      alert("Product Type Added Successfully");
     }
-    setIsReloade(!isReloade)
+
+    setText("");
+    setUpdateId(null);
+
+    setIsReloade(!isReloade);
   };
 
+  // edit
+  const handleUpdate = (item) => {
+    setUpdateId(item._id);
 
-  const handleUpdate =(item)=>{
-    setUpdateId(item._id)
-    setText(item.name)
-  }
-  const handleIsActive = async (id,isActive)=>{
+    setText(item.name);
+  };
+
+  // active inactive
+  const handleIsActive = async (id, isActive) => {
     const NewIsActive = !isActive;
-    const responce = await UpdateProductType(id,{isActive: NewIsActive})
-    setIsReloade(!isReloade)
-  }
-  return (
-    <div className="min-h-screen bg-indigo-50 flex flex-col py-10 px-6 md:px-20">
-      <div className="bg-white shadow-md rounded-2xl p-8 mb-10 border border-indigo-100">
-        <h1 className="text-3xl font-bold text-indigo-700 mb-6 text-center md:text-left">
-            Product Type
-        </h1>
-        <form
-          onSubmit={HandelPostUpdate}
-          className="flex flex-col md:flex-row items-center gap-4"
-        >
-          <input
-            type="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Enter Product Type"
-            className="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm"
-          />
-          <button
-            type="submit"
-            className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition flex items-center gap-2"
-          >
-            <i className="fa-solid fa-paper-plane"></i> Submit
-          </button>
-        </form>
-      </div>
 
-      <div className="bg-white shadow-md rounded-2xl p-8 border border-indigo-100">
-        <h2 className="text-2xl font-bold text-indigo-700 mb-6 text-center md:text-left">
-          <i className="fa-solid fa-database mr-2 text-indigo-600"></i>Product Type
-          Data
-        </h2>
-        <div className="overflow-x-auto rounded-lg border border-gray-200">
-          <table className="min-w-full bg-white text-sm text-gray-700">
-            <thead className="bg-indigo-600 text-white">
-              <tr>
-                <th className="py-3 px-6 text-left">#</th>
-                <th className="py-3 px-6 text-left">Title</th>
-                <th className="py-3 px-6 text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ProductTypeData.length > 0 ? (
-                ProductTypeData.map((item, index) => (
-                  <tr
-                    key={index}
-                    className={`border-b last:border-none hover:bg-indigo-50 transition ${
-                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                    }`}
-                  >
-                    <td className="py-3 px-6 font-medium text-gray-800">
-                      {index + 1}
-                    </td>
-                    <td className="py-3 px-6">{item.name}</td>
-                    <td className="py-3 px-6 text-center">
-                      <div className="flex justify-center gap-4 text-lg">
-                        <i
-                          className="fa-solid fa-pen-to-square text-blue-500 cursor-pointer hover:text-blue-700 transition"
-                          onClick={() => handleUpdate(item)}
-                        ></i>
-                        <span onClick={()=>handleIsActive(item._id,item.isActive)}>
-                          {item.isActive ? (
-                            <i className="fa-solid fa-eye text-green-500 cursor-pointer hover:text-green-700 transition"></i>
-                          ) : (
-                            <i className="fa-solid fa-eye-slash text-yellow-500 cursor-pointer hover:text-yellow-700 transition"></i>
-                          )}
+    await UpdateProductType(id, {
+      isActive: NewIsActive,
+    });
+
+    setIsReloade(!isReloade);
+  };
+
+  return (
+    <div className="min-h-screen md:p-10">
+      {/* FORM CARD */}
+      <Card className="border border-[#9C21FA]/20 shadow-2xl rounded-3xl bg-white">
+        <CardContent className="p-8">
+          {/* heading */}
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-14 h-14 rounded-full bg-[#9C21FA]/10 flex items-center justify-center">
+              <BadgePlus className="text-[#9C21FA]" />
+            </div>
+
+            <div>
+              <h1 className="text-3xl font-bold text-black">
+                Product Type
+              </h1>
+
+              <p className="text-gray-500">
+                Add and manage product types
+              </p>
+            </div>
+          </div>
+
+          {/* form */}
+          <form
+            onSubmit={HandelPostUpdate}
+            className="grid grid-cols-1 md:grid-cols-3 gap-5"
+          >
+            {/* input */}
+            <div className="md:col-span-2 space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Product Type Name
+              </label>
+
+              <Input
+                type="text"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Enter product type name"
+                className="border-[#9C21FA]/30 focus-visible:ring-[#9C21FA]"
+              />
+            </div>
+
+            {/* button */}
+            <div className="flex items-end">
+              <Button
+                type="submit"
+                className="w-full bg-[#9C21FA] hover:bg-[#7d18c9] text-white h-11"
+              >
+                {updateId
+                  ? "Update Product Type"
+                  : "Add Product Type"}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+
+      {/* TABLE CARD */}
+      <Card className="mt-10 border border-[#9C21FA]/20 shadow-2xl rounded-3xl bg-white">
+        <CardContent className="p-6">
+          {/* heading */}
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-black">
+              Product Type Data
+            </h2>
+
+            <p className="text-gray-500 mt-1">
+              Manage all product types
+            </p>
+          </div>
+
+          {/* table */}
+          <div className="overflow-hidden rounded-2xl border border-[#9C21FA]/10">
+            <Table>
+              {/* table head */}
+              <TableHeader className="bg-[#9C21FA]">
+                <TableRow>
+                  <TableHead className="text-white">
+                    #
+                  </TableHead>
+
+                  <TableHead className="text-white">
+                    Product Type
+                  </TableHead>
+
+                  <TableHead className="text-white text-center">
+                    Status
+                  </TableHead>
+
+                  <TableHead className="text-white text-center">
+                    Actions
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+
+              {/* table body */}
+              <TableBody>
+                {ProductTypeData.length > 0 ? (
+                  ProductTypeData.map((item, index) => (
+                    <TableRow
+                      key={index}
+                      className="hover:bg-[#faf5ff]"
+                    >
+                      {/* index */}
+                      <TableCell className="font-semibold text-black">
+                        {index + 1}
+                      </TableCell>
+
+                      {/* name */}
+                      <TableCell className="font-medium text-gray-700">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-[#9C21FA]/10 flex items-center justify-center">
+                            <Layers3
+                              size={18}
+                              className="text-[#9C21FA]"
+                            />
+                          </div>
+
+                          {item.name}
+                        </div>
+                      </TableCell>
+
+                      {/* status */}
+                      <TableCell className="text-center">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            item.isActive
+                              ? "bg-green-100 text-green-600"
+                              : "bg-yellow-100 text-yellow-700"
+                          }`}
+                        >
+                          {item.isActive
+                            ? "Active"
+                            : "Inactive"}
                         </span>
-                        <i
-                          className="fa-solid fa-trash text-red-500 cursor-pointer hover:text-red-700 transition"
-                          onClick={() => ProductTypeDeleteItem(item._id)}
-                        ></i>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="3"
-                    className="py-6 text-center text-gray-500 italic"
-                  >
-                    <i className="fa-solid fa-circle-info mr-2"></i>No ProductType
-                    data available
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                      </TableCell>
+
+                      {/* actions */}
+                      <TableCell className="text-center">
+                        <div className="flex justify-center gap-3">
+                          {/* edit */}
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            onClick={() =>
+                              handleUpdate(item)
+                            }
+                            className="border-blue-200 hover:bg-blue-50"
+                          >
+                            <Pencil
+                              size={16}
+                              className="text-blue-500"
+                            />
+                          </Button>
+
+                          {/* active inactive */}
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            onClick={() =>
+                              handleIsActive(
+                                item._id,
+                                item.isActive
+                              )
+                            }
+                            className="border-green-200 hover:bg-green-50"
+                          >
+                            {item.isActive ? (
+                              <Eye
+                                size={18}
+                                className="text-green-500"
+                              />
+                            ) : (
+                              <EyeOff
+                                size={18}
+                                className="text-yellow-500"
+                              />
+                            )}
+                          </Button>
+
+                          {/* delete */}
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            onClick={() =>
+                              ProductTypeDeleteItem(
+                                item._id
+                              )
+                            }
+                            className="border-red-200 hover:bg-red-50"
+                          >
+                            <Trash2
+                              size={16}
+                              className="text-red-500"
+                            />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={4}
+                      className="text-center py-10 text-gray-500"
+                    >
+                      No Product Type Data Available
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

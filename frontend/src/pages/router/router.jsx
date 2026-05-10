@@ -12,7 +12,7 @@ export default function Allrouter() {
   return (
           <Routes>
             <Route path="/" element={<HomePage />} />
-             <Route path="/singin" element={<Singin />} />
+             <Route path="/login" element={<Singin />} />
              <Route path='/singup' element={<Singup/>}/>
              <Route path='/product/:slug' element={<ProductDeities/>}/>
             <Route path='/shop/:slug' element={<ShopPage/>}/>

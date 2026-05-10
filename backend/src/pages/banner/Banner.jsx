@@ -92,6 +92,7 @@ export default function Banner() {
       formData.append("id", updateId);
       await UpdateHeroImage(formData);
     } else {
+      console.log('aaa')
       await PostHeroBanner(formData);
     }
 
@@ -299,12 +300,54 @@ export default function Banner() {
                     <TableCell>{index + 1}</TableCell>
 
                     <TableCell>
-                      <img
-                        src={item.image}
-                        alt="banner"
-                        className="w-28 h-16 object-cover rounded-lg border border-[#9C21FA]/20"
-                      />
-                    </TableCell>
+
+  <Dialog>
+    
+    <DialogTrigger asChild>
+      <img
+        src={item.image}
+        alt="banner"
+        className="w-28 h-16 object-cover rounded-lg border border-[#9C21FA]/20 cursor-pointer hover:scale-105 transition"
+      />
+    </DialogTrigger>
+
+    <DialogContent className="bg-white border border-[#9C21FA]/30 text-black max-w-4xl">
+      
+      <DialogHeader>
+        <DialogTitle className="text-[#9C21FA]">
+          Banner Preview
+        </DialogTitle>
+      </DialogHeader>
+
+      <div className="space-y-5">
+        
+        <img
+          src={item.image}
+          alt="preview"
+          className="w-full h-[400px] object-cover rounded-xl"
+        />
+
+        <div>
+          <h2 className="text-2xl font-bold">
+            {item.title}
+          </h2>
+
+          <h4 className="text-[#9C21FA] mt-2">
+            {item.subtitle}
+          </h4>
+
+          <p className="text-gray-600 mt-3">
+            {item.desc}
+          </p>
+        </div>
+
+      </div>
+
+    </DialogContent>
+
+  </Dialog>
+
+</TableCell>
 
                     <TableCell className="font-medium text-black">
                       {item.title}
@@ -355,7 +398,11 @@ export default function Banner() {
                         <Trash2 size={16} />
                       </Button>
 
+                    
+                      
                     </TableCell>
+
+                    
                   </TableRow>
                 ))
               ) : (

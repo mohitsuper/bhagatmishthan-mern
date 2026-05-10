@@ -6,10 +6,8 @@ import Footer from './Commen-components/Footer/Footer'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import {ToastContainer } from 'react-toastify'
 import { AddToCardVal } from './UseContext/AddToCardContext'
-import {  FavouriteProvider } from './UseContext/FavouriteCardContext'
 function App() {
   return (
-    <FavouriteProvider>
       <div className=''>
       <ToastContainer />
       <TopBar/>
@@ -17,7 +15,6 @@ function App() {
       <Allrouter/>
       <Footer/>
       </div>
-    </FavouriteProvider>
   )
 }
 

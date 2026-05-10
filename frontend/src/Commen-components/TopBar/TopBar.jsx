@@ -20,7 +20,7 @@ export default function TopBar() {
   return (
     <div className="bg-black text-white border-b border-zinc-800">
       <div className="max-w-[1400px] mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between">
+        <div className="flex flex-col md:flex-row items-center justify-between overflow-hidden">
           
           {/* LEFT SIDE - MARQUEE */}
           <div className="md:w-[50%] overflow-hidden">
