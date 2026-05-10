@@ -38,7 +38,10 @@ const GetHeroBanner = async (req, res) => {
 const PostHeroBanner = (req, res) => {
     try {
         const data = new HeroImage({
-            image: req.file.path
+            image: req.file.path,
+            title:req.body.title,
+            desc:req.body.desc,
+            subtitle:req.body.subtitle
         })
         data.save()
         res.send({

@@ -2,74 +2,174 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="bg-white text-gray-700 shadow-[0_-4px_6px_rgba(0,0,0,0.1)] ">
-      
-      {/* Top section */}
-      <div className="md:px-40 px-5 py-10 grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 ">
-        
-        {/* Logo + About */}
+    <footer className="bg-gray-950 text-gray-300 mt-10">
+
+      {/* Main Footer */}
+      <div className="max-w-[1400px]  px-4 sm:px-6 lg:px-8 mx-auto md:px-10  py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+        {/* Logo */}
         <div>
-          <h2 className="text-2xl font-bold text-indigo-600 mb-3">ShopMate</h2>
-          <p className="text-md leading-6">
-            Your trusted online store for quality products at the best prices.
-            Shop smart, shop with ShopMate.
+          <img src="/logo.png" height={80} width={150} className="mb-2"/>
+
+          <p className="text-sm leading-7 text-gray-400">
+            Discover premium products with amazing deals and fast delivery.
+            ShopMate makes your online shopping experience smooth and secure.
           </p>
+
+          {/* Social Icons */}
+          <div className="flex gap-4 mt-6">
+
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full bg-gray-800 hover:bg-blue-600 flex items-center justify-center duration-300"
+            >
+              <i className="fa-brands fa-facebook-f"></i>
+            </a>
+
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full bg-gray-800 hover:bg-pink-600 flex items-center justify-center duration-300"
+            >
+              <i className="fa-brands fa-instagram"></i>
+            </a>
+
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full bg-gray-800 hover:bg-sky-500 flex items-center justify-center duration-300"
+            >
+              <i className="fa-brands fa-twitter"></i>
+            </a>
+
+            <a
+              href="#"
+              className="w-10 h-10 rounded-full bg-gray-800 hover:bg-red-600 flex items-center justify-center duration-300"
+            >
+              <i className="fa-brands fa-youtube"></i>
+            </a>
+
+          </div>
         </div>
 
-        {/* Quick Links */}
+        {/* Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
-          <ul className="space-y-2 text-md">
-            <li><a href="#" className="hover:text-indigo-600">Home</a></li>
-            <li><a href="#" className="hover:text-indigo-600">Shop</a></li>
-            <li><a href="#" className="hover:text-indigo-600">Deals</a></li>
-            <li><a href="#" className="hover:text-indigo-600">About</a></li>
-            <li><a href="#" className="hover:text-indigo-600">Contact</a></li>
+          <h3 className="text-xl font-semibold text-white mb-5">
+            Quick Links
+          </h3>
+
+          <ul className="space-y-3 text-sm">
+
+            <li>
+              <a href="#" className="hover:text-indigo-400 duration-300">
+                Home
+              </a>
+            </li>
+
+            <li>
+              <a href="#" className="hover:text-indigo-400 duration-300">
+                Shop
+              </a>
+            </li>
+
+            <li>
+              <a href="#" className="hover:text-indigo-400 duration-300">
+                Categories
+              </a>
+            </li>
+
+            <li>
+              <a href="#" className="hover:text-indigo-400 duration-300">
+                Offers
+              </a>
+            </li>
+
+            <li>
+              <a href="#" className="hover:text-indigo-400 duration-300">
+                Contact
+              </a>
+            </li>
+
           </ul>
         </div>
 
-        {/* Contact Info */}
+        {/* Contact */}
         <div>
-          <h3 className="text-lg font-semibold mb-3">Contact Us</h3>
-          <ul className="space-y-2 text-md">
-            <li>📞 +91-6378494265</li>
-            <li>✉️ email@gmail.com</li>
-            <li>📍 Jaipur, Rajasthan, India</li>
+          <h3 className="text-xl font-semibold text-white mb-5">
+            Contact Info
+          </h3>
+
+          <ul className="space-y-4 text-sm text-gray-400">
+
+            <li className="flex items-center gap-3">
+              <i className="fa-solid fa-phone text-indigo-500"></i>
+              +91 6378494265
+            </li>
+
+            <li className="flex items-center gap-3">
+              <i className="fa-solid fa-envelope text-indigo-500"></i>
+              support@shopmate.com
+            </li>
+
+            <li className="flex items-center gap-3">
+              <i className="fa-solid fa-location-dot text-indigo-500"></i>
+              Jaipur, Rajasthan, India
+            </li>
+
           </ul>
         </div>
 
         {/* Newsletter */}
         <div>
-          <h3 className="text-lg font-semibold mb-3">Newsletter</h3>
-          <p className="text-md mb-3">Subscribe to get special offers, free giveaways, and updates.</p>
-          <form className="flex">
+          <h3 className="text-xl font-semibold text-white mb-5">
+            Newsletter
+          </h3>
+
+          <p className="text-sm text-gray-400 mb-5 leading-6">
+            Subscribe to receive updates, latest offers, and shopping deals.
+          </p>
+
+          <form className="flex flex-col gap-3">
+
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 outline-none focus:border-indigo-500"
             />
+
             <button
               type="submit"
-              className="bg-indigo-600 text-white px-4 rounded-r-md hover:bg-indigo-700 transition"
+              className="bg-indigo-600 hover:bg-indigo-700 px-5 py-3 rounded-lg text-white font-medium duration-300"
             >
               Subscribe
             </button>
+
           </form>
         </div>
 
       </div>
 
-      {/* Bottom bar */}
-      <div className="bg-indigo-600 text-white text-md py-3 md:px-40">
-        <div className="container mx-auto  flex justify-between items-center flex-col md:flex-row gap-2">
-          <p>© {new Date().getFullYear()} ShopMate. All rights reserved.</p>
-          <div className="flex space-x-4">
-            <a href="#" className="hover:text-gray-200">Privacy Policy</a>
-            <a href="#" className="hover:text-gray-200">Terms of Service</a>
+      {/* Bottom Footer */}
+      <div className="border-t border-gray-800">
+
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8  py-5 flex flex-col md:flex-row justify-between items-center gap-3 text-sm text-gray-400">
+
+          <p>
+            © {new Date().getFullYear()} ShopMate. All rights reserved.
+          </p>
+
+          <div className="flex gap-5">
+
+            <a href="#" className="hover:text-indigo-400 duration-300">
+              Privacy Policy
+            </a>
+
+            <a href="#" className="hover:text-indigo-400 duration-300">
+              Terms & Conditions
+            </a>
+
           </div>
+
         </div>
       </div>
-
     </footer>
   );
 }

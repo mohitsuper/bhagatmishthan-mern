@@ -12,7 +12,7 @@ export default function GiftingProduct({allProduct}) {
     return (
       <div className='pt-20 lg:px-35 px-10'>
           <HomeHeading title={"Gifting's product"}/>
-          <div className='pt-15'>
+          <div className=''>
            <Swiper 
                  modules={[Navigation, Pagination, Autoplay]}
                  navigation
@@ -26,7 +26,7 @@ export default function GiftingProduct({allProduct}) {
                    0:{slidesPerView:1}
                  }}
                  loop={true}
-                 className="h-[450px] w-full object-cover pt-10"
+                 className=" w-full object-cover pt-10"
            >
               {
                   GiftingProduct.map((v,i)=>{

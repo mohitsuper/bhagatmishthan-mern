@@ -52,7 +52,7 @@ export const PostCard = async (data)=>{
 export const GetCard = async ()=>{
     try{
         const responce = await axios.get(`${baseurl}/card`)
-        return responce.data.data
+        return responce.data.data || []
     }
     catch(error){
         console.log(error)

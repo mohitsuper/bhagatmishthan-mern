@@ -40,7 +40,7 @@ const GetCategory = async (req, res) => {
 const PostCategory = async (req, res) => {
     try {
         const { name } = req.body;
-        const image = req.file.filename;
+        const image = req.file.path;
         const data = new CategoryImage({
             name,
             image: image

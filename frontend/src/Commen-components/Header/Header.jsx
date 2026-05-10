@@ -7,11 +7,13 @@ import AddToCard from "./AddToCard";
 import FevouriteCard from "./FevouriteCard";
 import { AddToCardVal } from "../../UseContext/AddToCardContext";
 import { MobileHeader } from "./MobileHeader";
+import FavouriteCard from "./FevouriteCard";
+import { FavouriteContext } from "../../UseContext/FavouriteCardContext";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(null);
   const [addCardOpen, setAddCardOpen] = useState(false);
-  const [federatedOpen, setFederatedOpen] = useState(false);
+  const [FavouriteSideOpen, setFavouriteSideOpen] = useState(false);
   const [addCardData, setAddCardData] = useState([]);
   const [isTopPosition, setIsTopPosition] = useState(false);
   const [issetSearchOpen, setIsSearchOpen] = useState(false);
@@ -20,7 +22,7 @@ export default function Header() {
   const [IsMobile,setIsMobile] = useState(false)
   const user = JSON.parse(sessionStorage.getItem("user"));
   const { count } = useContext(AddToCardVal);
-
+  const {setFavIsOpen } = useContext(FavouriteContext)
   const handleReload = (data) => {
     setIsReload(data);
   };
@@ -30,15 +32,7 @@ export default function Header() {
     setAllCategory(response || []);
   };
 
-  useEffect(() => {
-    const fetchApiData = async () => {
-      const data = await GetCard();
-      setAddCardData(data);
-      getAllCategories();
-    };
-    fetchApiData();
-  }, [isReload]);
-
+  
   useEffect(() => {
     const changed = () => setIsMobile(window.innerWidth <= 992)
     changed()
@@ -54,166 +48,177 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if(IsMobile){
-    return (
-      <MobileHeader/>
-    )
-  }
+
+ 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50 relative">
-      {/* Add to Cart Sidebar */}
-      <div
-        className={`
-          fixed top-0 right-0 h-screen bg-white z-50 shadow-2xl
-          transition-all duration-300 ease-in-out
-          ${addCardOpen ? "w-80" : "w-0 overflow-hidden"}
-        `}
-      >
-        <button
-          onClick={() => setAddCardOpen(false)}
-          className="absolute top-5 left-5 text-gray-700 hover:text-gray-900 p-2 rounded-full transition-colors"
-        >
-          <i className="fa-solid fa-xmark"></i>
-        </button>
-        <AddToCard addCardData={addCardData} onReload={handleReload} />
-      </div>
+    <header className="bg-white sticky top-0 z-50 border-b border-zinc-200">
 
-      {/* Favourite Sidebar */}
-      <div
-        className={`
-          fixed top-0 right-0 h-screen bg-white z-50 shadow-2xl
-          transition-all duration-300 ease-in-out
-          ${federatedOpen ? "w-80" : "w-0 overflow-hidden"}
-        `}
-      >
-        <button
-          onClick={() => setFederatedOpen(false)}
-          className="absolute top-5 left-5 text-gray-700 hover:text-gray-900 p-2 rounded-full transition-colors"
-        >
-          <i className="fa-solid fa-xmark"></i>
-        </button>
-        <FevouriteCard />
-      </div>
+    {/* Main Header */}
+    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
-      {/* Top Contact Bar */}
-      <div className="bg-indigo-50 text-black text-sm flex items-center gap-5 justify-end px-40">
-        <div className="flex gap-6 items-center py-2">
-          <p>
-            <i className="fa-solid fa-phone mr-2 text-indigo-500"></i>
-            {ContactInfo.phone}
-          </p>
-          <p>
-            <i className="fa-solid fa-envelope mr-2 text-indigo-500"></i>
-            {ContactInfo.email}
-          </p>
-        </div>
-      </div>
+      <div className="h-[75px] lg:h-[85px] flex items-center justify-between">
 
-      {/* Main Header */}
-      <div className="py-4 flex items-center justify-between px-40">
-        {/* Logo */}
-        <div className="h-[60px] w-[150px]">
-          <img
-            src="/logo.png"
-            className="h-full w-full object-contain"
-            alt="Logo"
-          />
-        </div>
+        {/* LEFT SIDE */}
+        <div className="flex items-center gap-5 xl:gap-12">
 
-        {/* Navigation Links */}
-        <nav className="hidden md:flex space-x-8 font-medium text-gray-700">
-          <ul className="flex gap-5">
-            {NavLinks.map((v, i) => (
-              <li
-                key={i}
-                className="relative"
-                onMouseLeave={() => setIsOpen(null)}
-                onMouseEnter={() => setIsOpen(isOpen === i ? null : i)}
-              >
-                <NavLink
-                  className={({ isActive }) =>
-                    `py-5 ${isActive ? "text-indigo-500" : "text-black"}`
-                  }
-                  to={v.link}
+          {/* LOGO */}
+          <Link to="/" className="shrink-0">
+            <img
+              src="/logo.png"
+              className="h-[42px] sm:h-[48px] lg:h-[55px] object-contain"
+              alt="Logo"
+            />
+          </Link>
+
+          {/* DESKTOP NAVIGATION */}
+          <nav className="hidden lg:flex">
+            <ul className="flex items-center gap-5 xl:gap-8">
+
+              {NavLinks.map((v, i) => (
+                <li
+                  key={i}
+                  className="relative"
+                  onMouseLeave={() => setIsOpen(null)}
+                  onMouseEnter={() => setIsOpen(i)}
                 >
-                  {v.name}{" "}
-                  {v.submenu && allCategory.length > 0 && (
-                    <i className="fa-solid fa-angle-down ml-1"></i>
-                  )}
-                </NavLink>
 
-                {isOpen === i && v.submenu && (
-                  <div
-                    className={`fixed bg-white ${
-                      isTopPosition ? "top-32" : "top-40"
-                    } z-20 w-[60%] left-40 rounded-lg shadow`}
+                  <NavLink
+                    to={v.link}
+                    className={({ isActive }) =>
+                      `flex items-center gap-1 text-[14px] xl:text-[15px] font-semibold transition-all duration-300
+                      ${
+                        isActive
+                          ? "text-purple-600"
+                          : "text-zinc-800 hover:text-purple-600"
+                      }`
+                    }
                   >
-                    <ul className="grid grid-cols-4 gap-4 p-5">
-                      {allCategory.map((subItem, subIndex) => (
-                        <li key={subIndex} className="w-full">
-                          <Link
-                            to={`/shop/${subItem?.name}`}
-                            className="text-gray-700 hover:text-blue-500 font-[500]"
-                          >
-                            {subItem?.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        </nav>
+                    {v.name}
 
-        {/* Search Bar */}
-        {issetSearchOpen && (
-          <div className="flex-1 mx-4 max-w-md">
+                    {v.submenu && (
+                      <i className="fa-solid fa-angle-down text-[11px]"></i>
+                    )}
+                  </NavLink>
+
+                  {/* MEGA MENU */}
+                  {isOpen === i && v.submenu && (
+                    <div className="absolute top-[55px] left-0 bg-white shadow-2xl rounded-2xl p-6 w-[700px] xl:w-[750px] border border-zinc-100">
+
+                      <div className="grid grid-cols-4 gap-4">
+
+                        {allCategory.map((subItem, subIndex) => (
+                          <Link
+                            key={subIndex}
+                            to={`/shop/${subItem?.name}`}
+                            className="group"
+                          >
+
+                            <div className="bg-zinc-50 rounded-xl p-4 hover:bg-purple-50 transition-all duration-300">
+
+                              <div className="w-11 h-11 rounded-full bg-white shadow flex items-center justify-center mb-3">
+                                <i className="fa-solid fa-bag-shopping text-purple-600"></i>
+                              </div>
+
+                              <h3 className="font-semibold text-sm xl:text-base text-zinc-800 group-hover:text-purple-600">
+                                {subItem?.name}
+                              </h3>
+
+                              <p className="text-xs xl:text-sm text-zinc-500 mt-1">
+                                Explore collection
+                              </p>
+
+                            </div>
+                          </Link>
+                        ))}
+
+                      </div>
+                    </div>
+                  )}
+                </li>
+              ))}
+
+            </ul>
+          </nav>
+        </div>
+
+        {/* RIGHT SIDE */}
+        <div className="flex items-center gap-3 sm:gap-5">
+
+          {/* SEARCH BAR */}
+          <div className="hidden xl:flex items-center bg-zinc-100 rounded-full px-4 h-[46px] w-[240px] 2xl:w-[280px]">
+
+            <i className="fa-solid fa-magnifying-glass text-zinc-500 text-sm"></i>
+
             <input
               type="text"
-              placeholder="Search..."
-              className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-indigo-300"
+              placeholder="Search products..."
+              className="bg-transparent outline-none px-3 text-sm w-full"
             />
           </div>
-        )}
 
-        {/* Icons Section */}
-        <div className="flex items-center space-x-6 text-gray-700 text-[22px]">
-          <i
-            className="fa-solid fa-magnifying-glass cursor-pointer"
-            onClick={() => setIsSearchOpen(!issetSearchOpen)}
-          ></i>
+          {/* ICONS */}
+          <div className="flex items-center gap-4 sm:gap-5 text-[19px] sm:text-[21px] text-zinc-700">
 
-          <div
-            className="relative cursor-pointer"
-            onClick={() => setFederatedOpen(true)}
-          >
-            <i className="fa-regular fa-heart"></i>
-          </div>
+            {/* SEARCH MOBILE */}
+            <button className="xl:hidden hover:text-purple-600 transition-all duration-300">
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </button>
 
-          <div
-            className="relative cursor-pointer"
-            onClick={() => setAddCardOpen(true)}
-          >
-            <i className="fa-solid fa-cart-shopping"></i>
-            {count > 0 && (
-              <span className="absolute -top-2 -right-2 bg-indigo-600 text-white text-xs rounded-full px-1.5">
-                {count}
-              </span>
-            )}
-          </div>
-
-          {user && (
-            <div className="ml-4">
-              <Link to="/profile" className="flex items-center space-x-2">
-                <i className="fa-solid fa-circle-user"></i>
-                <span className="text-[1.1rem] font-medium">My Account</span>
-              </Link>
+            {/* WISHLIST */}
+            <div
+              onClick={() => setFavIsOpen(true)}
+              className="relative cursor-pointer hover:text-purple-600 transition-all duration-300"
+            >
+              <i className="fa-regular fa-heart"></i>
             </div>
-          )}
+
+            
+
+            {/* CART */}
+            <div
+              onClick={() => setAddCardOpen(true)}
+              className="relative cursor-pointer hover:text-purple-600 transition-all duration-300"
+            >
+              <i className="fa-solid fa-cart-shopping"></i>
+
+              {count > 0 && (
+                <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-[10px] font-semibold w-5 h-5 rounded-full flex items-center justify-center">
+                  {count}
+                </span>
+              )}
+            </div>
+
+            {/* ACCOUNT */}
+            {user ? (
+              <Link
+                to="/profile"
+                className="flex items-center gap-2 hover:text-purple-600 transition-all duration-300"
+              >
+                <i className="fa-regular fa-user"></i>
+
+                <span className="hidden 2xl:block text-[15px] font-semibold">
+                  Account
+                </span>
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="hidden sm:flex items-center gap-2 hover:text-purple-600 transition-all duration-300"
+              >
+                <i className="fa-regular fa-user"></i>
+
+                <span className="hidden xl:block text-[15px] font-semibold">
+                  Login
+                </span>
+              </Link>
+            )}
+
+          </div>
         </div>
+        <FavouriteCard/>
       </div>
+    </div>
     </header>
   );
+  
 }

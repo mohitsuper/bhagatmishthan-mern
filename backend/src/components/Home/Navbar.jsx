@@ -1,131 +1,209 @@
-import React from "react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
-export default function Navbar() {
-  const [isOpen, setIsopen] = useState(false);
+export default function Navbar({ isOpen, setIsOpen }) {
+
+  const [productOpen, setProductOpen] = useState(false);
+
+  const location = useLocation();
+
+  const menuClass = (path) =>
+    `flex items-center gap-3 px-4 py-3 rounded-xl duration-300 group
+    ${
+      location.pathname === path
+        ? "bg-indigo-600 text-white"
+        : "hover:bg-indigo-600 text-gray-300"
+    }`;
+
   return (
-    <aside className="w-100 bg-indigo-500 text-white flex flex-col h-full">
-      <div className="flex-shrink-0 pl-10 pt-10">
-        <Link to="/" className="text-2xl font-bold tracking-wide">
-          <img src="asstes/logo/logo.png" alt="Logo" className="h-15 w-auto" />
-        </Link>
-      </div>
-      <nav className="flex-1 p-10 space-y-2">
-        <Link
-          to="/"
-          className="block py-2 px-3 rounded hover:bg-indigo-400 transition"
-        >
-          Dashboard
-        </Link>
-        <Link
-          to="/topbar"
-          className="block py-2 px-3 rounded hover:bg-indigo-400 transition"
-        >
-          Topbar
-        </Link>
-        <Link
-          to="/banner"
-          className="block py-2 px-3 rounded hover:bg-indigo-400 transition"
-        >
-          Banner
-        </Link>
-        <Link
-          to="/users"
-          className="block py-2 px-3 rounded hover:bg-indigo-400 transition"
-        >
-          Users
-        </Link>
-        <div
-          onClick={() => setIsopen(!isOpen)}
-          className="block py-2 px-3 rounded hover:bg-indigo-400 transition font-bold"
-        >
-          Products
-          {isOpen && (
-            <ul className="space-y-3 pt-3 px-3 font-normal">
-              <li>
-                <Link to="/best-seller-product">Product List</Link>
-              </li>
-              <li>
-                <Link to="/product-type">Product Type</Link>
-              </li>
-               <li>
-                <Link to="/category">Category</Link>
-              </li>
-              <li>
-                <Link to="/management-products">Management Products</Link>
-              </li>
-            </ul>
-          )}
+    <>
+      {/* Sidebar */}
+      <aside
+        className={`fixed lg:static top-0 left-0 z-50 h-screen w-[280px]
+        bg-gray-950 text-white flex flex-col duration-300 shadow-2xl
+        ${
+          isOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
+        }`}
+      >
+
+        {/* Logo */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
+
+          <Link to="/" className="flex items-center gap-3">
+
+            <img
+              src="/asstes/logo/logo.png"
+              alt="Logo"
+              className="h-10 object-contain"
+            />
+
+            <div>
+              <h2 className="text-sm font-bold text-white">
+                ShopMate
+              </h2>
+
+              <p className="text-xs text-gray-400">
+                Admin Panel
+              </p>
+            </div>
+
+          </Link>
+
+          {/* Mobile Close */}
+          <button
+            onClick={() => setIsOpen(false)}
+            className="lg:hidden text-2xl text-white"
+          >
+            <i className="fa-solid fa-xmark"></i>
+          </button>
         </div>
-        <Link
-          to="/orders"
-          className="block py-2 px-3 rounded hover:bg-indigo-400 transition"
-        >
-          Orders
-        </Link>
-        <Link
-          to="/settings"
-          className="block py-2 px-3 rounded hover:bg-indigo-400 transition"
-        >
-          Settings
-          <ul>
-            <li className="text-sm text-gray-300">Profile</li>
-            <li className="text-sm text-gray-300">Billing</li>
-            <li className="text-sm text-gray-300">Customize</li>
-            <li className="text-sm text-gray-300">Notifications</li>
-            <li className="text-sm text-gray-300">Integrations</li>
-            <li className="text-sm text-gray-300">API</li>
-          </ul>
-        </Link>
-      </nav>
-      <div className="p-4 border-t border-gray-700">
-        <button className="w-full py-2 px-3 bg-red-600 hover:bg-red-700 rounded">
-          Logout
-        </button>
-      </div>
-    </aside>
-    // <nav className="w-full h-full bg-indigo-500 text-white shadow-md">
-    //   <div className=" mx-auto px-4 sm:px-6 lg:px-8 pt-10">
-    //     <div className="flex-col gap-10 items-center flex">
 
-    //       {/* Logo */}
-    //       <div className="flex-shrink-0">
-    //         <a href="/" className="text-2xl font-bold tracking-wide">
-    //           <img src="asstes/logo/logo.png" alt="Logo" className="h-20 w-auto mx-auto"/>
-    //         </a>
-    //       </div>
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-2">
 
-    //       {/* Menu Items */}
-    //       <div className="flex-col flex gap-6">
-    //         <a href="#" className="hover:text-gray-300 transition">Desktop</a>
-    //         <a href="#" className="hover:text-gray-300 transition">Topbar</a>
-    //         <a href="#" className="hover:text-gray-300 transition">Product</a>
-    //         <a href="#" className="hover:text-gray-300 transition">User</a>
-    //         <a href="#" className="hover:text-gray-300 transition">Show Products</a>
-    //       </div>
+          {/* Dashboard */}
+          <Link
+            to="/"
+            className={menuClass("/")}
+          >
+            <i className="fa-solid fa-table-columns text-indigo-400 group-hover:text-white"></i>
+            Dashboard
+          </Link>
 
-    //       {/* Optional: Mobile Menu Icon */}
-    //       <div className="md:hidden">
-    //         <button type="button" className="text-white focus:outline-none">
-    //           <svg
-    //             className="h-6 w-6"
-    //             fill="none"
-    //             stroke="currentColor"
-    //             viewBox="0 0 24 24"
-    //           >
-    //             <path
-    //               strokeLinecap="round"
-    //               strokeLinejoin="round"
-    //               strokeWidth="2"
-    //               d="M4 6h16M4 12h16M4 18h16"
-    //             />
-    //           </svg>
-    //         </button>
-    //       </div>
+          {/* Topbar */}
+          <Link
+            to="/topbar"
+            className={menuClass("/topbar")}
+          >
+            <i className="fa-solid fa-layer-group text-indigo-400 group-hover:text-white"></i>
+            Topbar
+          </Link>
 
-    //     </div>
-    //   </div>
-    // </nav>
+          {/* Banner */}
+          <Link
+            to="/banner"
+            className={menuClass("/banner")}
+          >
+            <i className="fa-solid fa-image text-indigo-400 group-hover:text-white"></i>
+            Banner
+          </Link>
+
+          {/* Users */}
+          <Link
+            to="/users"
+            className={menuClass("/users")}
+          >
+            <i className="fa-solid fa-users text-indigo-400 group-hover:text-white"></i>
+            Users
+          </Link>
+
+          {/* Product Dropdown */}
+          <div>
+
+            <button
+              onClick={() => setProductOpen(!productOpen)}
+              className="w-full flex items-center justify-between px-4 py-3 rounded-xl hover:bg-indigo-600 duration-300 text-gray-300"
+            >
+
+              <div className="flex items-center gap-3">
+                <i className="fa-solid fa-box-open text-indigo-400"></i>
+                Products
+              </div>
+
+              <i
+                className={`fa-solid fa-angle-down duration-300 ${
+                  productOpen ? "rotate-180" : ""
+                }`}
+              ></i>
+
+            </button>
+
+            {/* Dropdown Menu */}
+            <div
+              className={`overflow-hidden duration-300 ${
+                productOpen
+                  ? "max-h-96 mt-2"
+                  : "max-h-0"
+              }`}
+            >
+
+              <div className="ml-5 space-y-2 border-l border-gray-700 pl-4">
+
+                <Link
+                  to="/best-seller-product"
+                  className="block text-sm text-gray-400 hover:text-white hover:bg-gray-800 px-3 py-2 rounded-lg duration-300"
+                >
+                  Product List
+                </Link>
+
+                <Link
+                  to="/product-type"
+                  className="block text-sm text-gray-400 hover:text-white hover:bg-gray-800 px-3 py-2 rounded-lg duration-300"
+                >
+                  Product Type
+                </Link>
+
+                <Link
+                  to="/category"
+                  className="block text-sm text-gray-400 hover:text-white hover:bg-gray-800 px-3 py-2 rounded-lg duration-300"
+                >
+                  Category
+                </Link>
+
+                <Link
+                  to="/management-products"
+                  className="block text-sm text-gray-400 hover:text-white hover:bg-gray-800 px-3 py-2 rounded-lg duration-300"
+                >
+                  Management Products
+                </Link>
+
+              </div>
+            </div>
+          </div>
+
+          {/* Orders */}
+          <Link
+            to="/orders"
+            className={menuClass("/orders")}
+          >
+            <i className="fa-solid fa-cart-shopping text-indigo-400 group-hover:text-white"></i>
+            Orders
+          </Link>
+
+          {/* Settings */}
+          <Link
+            to="/settings"
+            className={menuClass("/settings")}
+          >
+            <i className="fa-solid fa-gear text-indigo-400 group-hover:text-white"></i>
+            Settings
+          </Link>
+
+        </nav>
+
+        {/* Logout */}
+        <div className="p-5 border-t border-gray-800">
+
+          <button className="w-full bg-red-600 hover:bg-red-700 duration-300 py-3 rounded-xl font-medium flex items-center justify-center gap-3">
+
+            <i className="fa-solid fa-right-from-bracket"></i>
+
+            Logout
+
+          </button>
+
+        </div>
+      </aside>
+
+      {/* Overlay */}
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        ></div>
+      )}
+    </>
   );
 }

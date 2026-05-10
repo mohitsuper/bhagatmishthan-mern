@@ -7,146 +7,260 @@ import {
   TopbarUpdate,
 } from "../../api/api";
 
+// shadcn ui
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import { Pencil, Trash2, Eye, EyeOff, Send } from "lucide-react";
+
 export default function Topbar() {
   const [text, setText] = useState("");
   const [topbarData, setTopbarData] = useState([]);
   const [isReloade, setIsReloade] = useState(false);
-  const [isActive, setIsActive] = useState(true);
-  const [isActiveId,setIsActiveId] = useState(null)
   const [updateId, setUpdateId] = useState(null);
+
   useEffect(() => {
     fetchTopbarData();
   }, [isReloade]);
 
-  //get all the topbardata
+  // get topbar data
   async function fetchTopbarData() {
     const response = await TopbarGet();
     setTopbarData(response || []);
   }
 
-  //delte topbar data
+  // delete
   const TopbarDeleteItem = async (id) => {
     await TopbarDelete(id);
     setIsReloade(!isReloade);
   };
 
-  //post & update handle topbar data
-
+  // create/update
   const HandelPostUpdate = async (e) => {
     e.preventDefault();
+
     if (!updateId) {
       await TopbarPost({ title: text });
-      fetchTopbarData();
       setText("");
-    } 
-    else {
-      await TopbarUpdate(updateId,text);
-      setUpdateId(null)
+    } else {
+      await TopbarUpdate(updateId, text);
+      setUpdateId(null);
+      setText("");
     }
-    setIsReloade(!isReloade)
+
+    setIsReloade(!isReloade);
   };
 
+  // edit
+  const handleUpdate = (item) => {
+    setUpdateId(item._id);
+    setText(item.title);
+  };
 
-  const handleUpdate =(item)=>{
-    setUpdateId(item._id)
-    setText(item.title)
-  }
-  const handleIsActive = async (id,isActive)=>{
+  // active/inactive
+  const handleIsActive = async (id, isActive) => {
     const NewIsActive = !isActive;
-    const responce = await TopbarIsActive(id,NewIsActive)
-    console.log(responce)
-    setIsReloade(!isReloade)
-  }
-  return (
-    <div className="min-h-screen bg-indigo-50 flex flex-col py-10 px-6 md:px-20">
-      <div className="bg-white shadow-md rounded-2xl p-8 mb-10 border border-indigo-100">
-        <h1 className="text-3xl font-bold text-indigo-700 mb-6 text-center md:text-left">
-          <i className="fa-solid fa-font mr-2 text-indigo-600"></i>Set Topbar
-          Marquee Text
-        </h1>
-        <form
-          onSubmit={HandelPostUpdate}
-          className="flex flex-col md:flex-row items-center gap-4"
-        >
-          <input
-            type="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Enter marquee text..."
-            className="flex-1 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition shadow-sm"
-          />
-          <button
-            type="submit"
-            className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition flex items-center gap-2"
-          >
-            <i className="fa-solid fa-paper-plane"></i> Submit
-          </button>
-        </form>
-      </div>
 
-      <div className="bg-white shadow-md rounded-2xl p-8 border border-indigo-100">
-        <h2 className="text-2xl font-bold text-indigo-700 mb-6 text-center md:text-left">
-          <i className="fa-solid fa-database mr-2 text-indigo-600"></i>Topbar
-          Data
-        </h2>
-        <div className="overflow-x-auto rounded-lg border border-gray-200">
-          <table className="min-w-full bg-white text-sm text-gray-700">
-            <thead className="bg-indigo-600 text-white">
-              <tr>
-                <th className="py-3 px-6 text-left">#</th>
-                <th className="py-3 px-6 text-left">Title</th>
-                <th className="py-3 px-6 text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {topbarData.length > 0 ? (
-                topbarData.map((item, index) => (
-                  <tr
-                    key={index}
-                    className={`border-b last:border-none hover:bg-indigo-50 transition ${
-                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                    }`}
-                  >
-                    <td className="py-3 px-6 font-medium text-gray-800">
-                      {index + 1}
-                    </td>
-                    <td className="py-3 px-6">{item.title}</td>
-                    <td className="py-3 px-6 text-center">
-                      <div className="flex justify-center gap-4 text-lg">
-                        <i
-                          className="fa-solid fa-pen-to-square text-blue-500 cursor-pointer hover:text-blue-700 transition"
-                          onClick={() => handleUpdate(item)}
-                        ></i>
-                        <span onClick={()=>handleIsActive(item._id,item.isActive)}>
-                          {item.isActive ? (
-                            <i className="fa-solid fa-eye text-green-500 cursor-pointer hover:text-green-700 transition"></i>
-                          ) : (
-                            <i className="fa-solid fa-eye-slash text-yellow-500 cursor-pointer hover:text-yellow-700 transition"></i>
-                          )}
+    await TopbarIsActive(id, NewIsActive);
+
+    setIsReloade(!isReloade);
+  };
+
+  return (
+    <div className="min-h-screen p-6 md:p-10">
+
+      {/* Form Card */}
+      <Card className="border border-[#9C21FA]/20 shadow-xl rounded-3xl">
+        <CardContent className="p-8">
+
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 rounded-full bg-[#9C21FA]/10 flex items-center justify-center">
+              <Send className="text-[#9C21FA]" size={22} />
+            </div>
+
+            <div>
+              <h1 className="text-3xl font-bold text-black">
+                Set Topbar Text
+              </h1>
+
+              <p className="text-gray-500 mt-1">
+                Add marquee text for website topbar
+              </p>
+            </div>
+          </div>
+
+          <form
+            onSubmit={HandelPostUpdate}
+            className="flex flex-col md:flex-row gap-4"
+          >
+            <Input
+              type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Enter marquee text..."
+              className="h-12 border-[#9C21FA]/30 focus-visible:ring-[#9C21FA]"
+            />
+
+            <Button
+              type="submit"
+              className="h-12 px-8 bg-[#9C21FA] hover:bg-[#7d18c9] text-white"
+            >
+              {updateId ? "Update" : "Submit"}
+            </Button>
+          </form>
+
+        </CardContent>
+      </Card>
+
+      {/* Table Card */}
+      <Card className="mt-10 border border-[#9C21FA]/20 shadow-xl rounded-3xl bg-white">
+        <CardContent className="p-6">
+
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-black">
+              Topbar Data
+            </h2>
+
+            <p className="text-gray-500 mt-1">
+              Manage all topbar marquee texts
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-2xl border border-[#9C21FA]/10">
+
+            <Table>
+              <TableHeader className="bg-[#9C21FA]">
+
+                <TableRow>
+                  <TableHead className="text-white">#</TableHead>
+                  <TableHead className="text-white">Title</TableHead>
+                  <TableHead className="text-white text-center">
+                    Status
+                  </TableHead>
+                  <TableHead className="text-white text-center">
+                    Actions
+                  </TableHead>
+                </TableRow>
+
+              </TableHeader>
+
+              <TableBody>
+
+                {topbarData.length > 0 ? (
+                  topbarData.map((item, index) => (
+                    <TableRow
+                      key={index}
+                      className="hover:bg-[#faf5ff] transition"
+                    >
+                      <TableCell className="font-semibold text-black">
+                        {index + 1}
+                      </TableCell>
+
+                      <TableCell className="font-medium text-gray-700">
+                        {item.title}
+                      </TableCell>
+
+                      {/* status */}
+                      <TableCell className="text-center">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            item.isActive
+                              ? "bg-green-100 text-green-600"
+                              : "bg-yellow-100 text-yellow-700"
+                          }`}
+                        >
+                          {item.isActive ? "Active" : "Inactive"}
                         </span>
-                        <i
-                          className="fa-solid fa-trash text-red-500 cursor-pointer hover:text-red-700 transition"
-                          onClick={() => TopbarDeleteItem(item._id)}
-                        ></i>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="3"
-                    className="py-6 text-center text-gray-500 italic"
-                  >
-                    <i className="fa-solid fa-circle-info mr-2"></i>No topbar
-                    data available
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                      </TableCell>
+
+                      {/* actions */}
+                      <TableCell className="text-center">
+                        <div className="flex justify-center gap-3">
+
+                          {/* edit */}
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            onClick={() => handleUpdate(item)}
+                            className="border-blue-200 hover:bg-blue-50"
+                          >
+                            <Pencil
+                              size={16}
+                              className="text-blue-500"
+                            />
+                          </Button>
+
+                          {/* active */}
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            onClick={() =>
+                              handleIsActive(
+                                item._id,
+                                item.isActive
+                              )
+                            }
+                            className="border-green-200 hover:bg-green-50"
+                          >
+                            {item.isActive ? (
+                              <Eye
+                                size={18}
+                                className="text-green-500"
+                              />
+                            ) : (
+                              <EyeOff
+                                size={18}
+                                className="text-yellow-500"
+                              />
+                            )}
+                          </Button>
+
+                          {/* delete */}
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            onClick={() =>
+                              TopbarDeleteItem(item._id)
+                            }
+                            className="border-red-200 hover:bg-red-50"
+                          >
+                            <Trash2
+                              size={16}
+                              className="text-red-500"
+                            />
+                          </Button>
+
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={4}
+                      className="text-center py-10 text-gray-500"
+                    >
+                      No topbar data available
+                    </TableCell>
+                  </TableRow>
+                )}
+
+              </TableBody>
+            </Table>
+
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
