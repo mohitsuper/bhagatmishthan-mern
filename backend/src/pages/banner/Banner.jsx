@@ -137,7 +137,7 @@ export default function Banner() {
   };
 
   return (
-  <div className="min-h-screen  text-black p-6 md:p-10">
+  <div className="min-h-screen  text-black md:p-10">
     
     {/* Upload Card */}
     <Card className="bg-white border border-[#9C21FA]/20 rounded-3xl shadow-2xl">

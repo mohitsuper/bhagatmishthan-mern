@@ -45,10 +45,7 @@ const PostProduct = async (req, res) => {
             title, description, weight, stock, price, category,
             productType,
             ingredients, subimage: [
-                `http://localhost:3000/upload/Product/${req.files.subimage[0].filename}`,
-                `http://localhost:3000/upload/Product/${req.files.subimage[1].filename}`,
-                `http://localhost:3000/upload/Product/${req.files.subimage[2].filename}`,
-                `http://localhost:3000/upload/Product/${req.files.subimage[3].filename}`,
+                req.files[0].path,req.files[1].path,req.files[2].path,req.files[3].path
             ],
             
         })

@@ -4,10 +4,12 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import "@fortawesome/fontawesome-free/css/all.min.css";
-
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
+      <ToastContainer/>
       <App />
     </BrowserRouter>
   </StrictMode>,

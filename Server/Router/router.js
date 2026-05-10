@@ -71,9 +71,7 @@ router.post('/post/favourite',PostFavourite)
 
 
 //add best Seller product start
-router.post('/post/product',ProductImageUplode.fields([
-    {name:"subimage",maxCount:4}
-]),PostProduct)
+router.post('/post/product',upload.array("subimage",4),PostProduct)
 router.get('/product',GetProduct)
 router.get('/web/product',GetWebProduct)
 //add best Seller product end

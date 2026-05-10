@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/table";
 
 import { Pencil, Trash2, Eye, EyeOff, Send } from "lucide-react";
+import DataTable from "@/commen/DataTable";
+import { TopbarDataColumns } from "@/columns/DataColumns";
 
 export default function Topbar() {
   const [text, setText] = useState("");
@@ -77,7 +79,7 @@ export default function Topbar() {
   };
 
   return (
-    <div className="min-h-screen p-6 md:p-10">
+    <div className="min-h-screen md:p-10">
 
       {/* Form Card */}
       <Card className="border border-[#9C21FA]/20 shadow-xl rounded-3xl">
@@ -136,9 +138,11 @@ export default function Topbar() {
             </p>
           </div>
 
+             {/* <DataTable columns={TopbarDataColumns} data={topbarData}>
+                <Button>aa</Button>
+             </DataTable> */}
           <div className="overflow-hidden rounded-2xl border border-[#9C21FA]/10">
-
-            <Table>
+             <Table>
               <TableHeader className="bg-[#9C21FA]">
 
                 <TableRow>
@@ -170,7 +174,6 @@ export default function Topbar() {
                         {item.title}
                       </TableCell>
 
-                      {/* status */}
                       <TableCell className="text-center">
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -183,11 +186,9 @@ export default function Topbar() {
                         </span>
                       </TableCell>
 
-                      {/* actions */}
                       <TableCell className="text-center">
                         <div className="flex justify-center gap-3">
 
-                          {/* edit */}
                           <Button
                             size="icon"
                             variant="outline"
@@ -200,7 +201,6 @@ export default function Topbar() {
                             />
                           </Button>
 
-                          {/* active */}
                           <Button
                             size="icon"
                             variant="outline"
@@ -225,7 +225,6 @@ export default function Topbar() {
                             )}
                           </Button>
 
-                          {/* delete */}
                           <Button
                             size="icon"
                             variant="outline"
@@ -256,7 +255,7 @@ export default function Topbar() {
                 )}
 
               </TableBody>
-            </Table>
+            </Table> 
 
           </div>
         </CardContent>

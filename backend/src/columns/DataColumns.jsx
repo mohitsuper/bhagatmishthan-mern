@@ -1,0 +1,19 @@
+export const TopbarDataColumns = [
+    {
+        header:'Id',
+        field:'_id'
+    },
+    {
+        header:'Title',
+        field:'title'
+    },
+    {
+        header:'Status',
+        field:'isActive',
+    },
+    {
+        header:'Action',
+        field:null,
+        slot:true
+    }
+]

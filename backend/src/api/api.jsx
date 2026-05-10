@@ -1,285 +1,344 @@
 import axios from "axios";
+import { toast } from "react-toastify";
+
 const baseurl = import.meta.env.VITE_BASEURL;
 const localurl = import.meta.env.VITE_LOCALURL;
 
-// topbar api start
+// ==============================
+// TOPBAR API START
+// ==============================
+
 export const TopbarPost = async ({ title }) => {
-  const url = `${localurl}/api/post/topbar`;
-  axios
-    .post(url, { title })
-    .then(() => {
-      alert("Submit Your Data");
-    })
-    .catch((error) => {
-      alert("Data Submit Failed");
-      console.log(error);
-    });
+  try {
+    const url = `${localurl}/api/post/topbar`;
+
+    await axios.post(url, { title });
+
+    toast.success("Topbar data submitted successfully");
+  } catch (error) {
+    toast.error("Topbar submit failed");
+
+    console.log(error);
+  }
 };
 
 export const TopbarGet = async () => {
-  const url = `${localurl}/api/topbar`;
-  const responce = await axios.get(url);
   try {
-    console.log("topbar data get successfull");
-    return responce.data.data;
+    const url = `${localurl}/api/topbar`;
+
+    const response = await axios.get(url);
+
+    return response.data.data;
   } catch (error) {
-    console.log("topbar data get failed", error);
+    toast.error("Failed to fetch topbar data");
+
+    console.log(error);
   }
 };
 
 export const TopbarUpdate = async (id, text) => {
-  const url = `${localurl}/api/update/topbar`;
   try {
-    const responce = await axios.put(url, {
+    const url = `${localurl}/api/update/topbar`;
+
+    await axios.put(url, {
       _id: id,
       title: text,
     });
+
+    toast.success("Topbar updated successfully");
   } catch (error) {
-    alert("Data Update Failed");
+    toast.error("Topbar update failed");
+
     console.log(error);
   }
 };
+
 export const TopbarIsActive = async (id, isActive) => {
-  const url = `${localurl}/api/update/topbar`;
   try {
-    const responce = await axios.put(url, {
+    const url = `${localurl}/api/update/topbar`;
+
+    await axios.put(url, {
       _id: id,
       isActive,
     });
-    console.log(responce);
+
+    toast.success(
+      `Topbar ${isActive ? "Activated" : "Deactivated"}`
+    );
   } catch (error) {
-    alert("Data active and inactive Failed");
+    toast.error("Topbar status update failed");
+
     console.log(error);
   }
 };
+
 export const TopbarDelete = async (id) => {
   try {
     const url = `${localurl}/api/delete/topbar/${id}`;
-    const confirmDelete = confirm("Are You Sure Delete Value");
-    if (confirmDelete) {
-      const responce = await axios.delete(url);
-      alert("topbar data delete successfull");
-      return responce.data.data;
-    }
+
+    await axios.delete(url);
+
+    toast.success("Topbar deleted successfully");
   } catch (error) {
-    console.log("topbar data delete failed", error);
+    toast.error("Topbar delete failed");
+
+    console.log(error);
   }
 };
 
-// topbar api end
-
-// user api start
+// ==============================
+// USER API START
+// ==============================
 
 export const SinginUserData = async () => {
-  const url = `${localurl}/api/singup`;
-  const responce = await axios.get(url);
   try {
-    console.log("Singin User Data get successfull");
-    return responce.data.data;
+    const url = `${localurl}/api/singup`;
+
+    const response = await axios.get(url);
+
+    return response.data.data;
   } catch (error) {
-    console.log("topbar data get failed", error);
+    toast.error("Failed to fetch users");
+
+    console.log(error);
   }
 };
 
-//user api end
-
-// herobanner api start
+// ==============================
+// HERO BANNER API START
+// ==============================
 
 export const PostHeroBanner = async (data) => {
-  const url = `${localurl}/api/post/banner`;
   try {
-    const res = await axios.post(url, data, {
-      headers: { "Content-Type": "multipart/form-data" },
+    const url = `${localurl}/api/post/banner`;
+
+    await axios.post(url, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
-    if (res) {
-      alert("Hero Image Uplode Successfull");
-    }
+
+    toast.success("Hero banner uploaded successfully");
   } catch (error) {
-    alert("Hero Image Uplode failed");
+    toast.error("Hero banner upload failed");
+
     console.log(error);
   }
 };
 
 export const GetHeroBanner = async () => {
-  const url = `${localurl}/api/banner`;
-  const responce = await axios.get(url);
   try {
-    console.log("banner data get successfull");
-    return responce.data.data;
+    const url = `${localurl}/api/banner`;
+
+    const response = await axios.get(url);
+
+    return response.data.data;
   } catch (error) {
-    console.log("banner data get failed", error);
+    toast.error("Failed to fetch banner data");
+
+    console.log(error);
   }
 };
 
 export const DeleteHeroImage = async (id) => {
-  const url = `${localurl}/api/delete/banner/${id}`;
-  const responce = await axios.delete(url);
   try {
-    console.log("banner data delete successfull");
-    return responce.data.data;
+    const url = `${localurl}/api/delete/banner/${id}`;
+
+    await axios.delete(url);
+
+    toast.success("Banner deleted successfully");
   } catch (error) {
-    console.log("banner data delete failed", error);
+    toast.error("Banner delete failed");
+
+    console.log(error);
   }
 };
 
 export const UpdateHeroImage = async (data) => {
   try {
     const url = `${localurl}/api/update/banner`;
-    const responce = await axios.put(url, data, {
-      headers: { "Content-Type": "multipart/form-data" },
+
+    await axios.put(url, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
-    if (responce) {
-      console.log("banner data update successfull", responce);
-    }
+
+    toast.success("Banner updated successfully");
   } catch (error) {
-    console.log("banner data delete failed", error);
+    toast.error("Banner update failed");
+
+    console.log(error);
   }
 };
 
-export const IsAcitveHeroImage = async (data) => {
-  try {
-    const url = `${localurl}/api/update/banner`;
-    const responce = await axios.put(url, data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    if (responce) {
-      console.log("banner data update successfull");
-    }
-  } catch (error) {
-    console.log("banner data delete failed", error);
-  }
-};
-
-// herobanner api end
-
-// category api start
+// ==============================
+// CATEGORY API START
+// ==============================
 
 export const GetCategory = async () => {
-  try{
-    const responce = await axios.get(`${localurl}/api/category`);
-    return responce.data.data
-  }
-  catch(error){
-    console.log("category data get failed:",error)
+  try {
+    const response = await axios.get(
+      `${localurl}/api/category`
+    );
+
+    return response.data.data;
+  } catch (error) {
+    toast.error("Failed to fetch category data");
+
+    console.log(error);
   }
 };
 
-export const PostCategory = async (data)=>{
-  try{
-    const responce = await axios.post(`${localurl}/api/post/category`,data,{
-      headers:{"Content-Type": "multipart/form-data"}
+export const PostCategory = async (data) => {
+  try {
+    await axios.post(
+      `${localurl}/api/post/category`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    toast.success("Category added successfully");
+  } catch (error) {
+    toast.error("Category add failed");
+
+    console.log(error);
+  }
+};
+
+export const DeleteCategory = async (id) => {
+  try {
+    const url = `${localurl}/api/delete/category/${id}`;
+
+    await axios.delete(url);
+
+    toast.success("Category deleted successfully");
+  } catch (error) {
+    toast.error("Category delete failed");
+
+    console.log(error.message);
+  }
+};
+
+export const UpdateCategory = async (id, data) => {
+  try {
+    await axios.put(
+      `${localurl}/api/update/category/${id}`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    toast.success("Category updated successfully");
+  } catch (error) {
+    toast.error("Category update failed");
+
+    console.log(error);
+  }
+};
+
+// ==============================
+// PRODUCT TYPE API START
+// ==============================
+
+export const GetProductType = async () => {
+  try {
+    const response = await axios.get(
+      `${localurl}/api/product-type`
+    );
+
+    return response.data.data;
+  } catch (error) {
+    toast.error("Failed to fetch product type");
+
+    console.log(error);
+  }
+};
+
+export const PostProductType = async (data) => {
+  try {
+    await axios.post(
+      `${localurl}/api/post/product-type`,
+      {
+        name: data,
+      }
+    );
+
+    toast.success("Product type added successfully");
+  } catch (error) {
+    toast.error("Product type add failed");
+
+    console.log(error);
+  }
+};
+
+export const DeleteProductType = async (id) => {
+  try {
+    const url = `${localurl}/api/delete/product-type/${id}`;
+
+    await axios.delete(url);
+
+    toast.success("Product type deleted successfully");
+  } catch (error) {
+    toast.error("Product type delete failed");
+
+    console.log(error);
+  }
+};
+
+export const UpdateProductType = async (id, data) => {
+  try {
+    const url = `${localurl}/api/update/product-type`;
+
+    await axios.put(url, {
+      id: id,
+      name: data.name,
+      isActive: data.isActive,
     });
 
-    console.log("category data post successfull:")
-  }
-  catch(error){
-    console.log("category data post failed:",error)
-  }
-}
+    toast.success("Product type updated successfully");
+  } catch (error) {
+    toast.error("Product type update failed");
 
-export const DeleteCategory = async (id)=>{
-  const url = `${localurl}/api/delete/category/${id}`;
-  try{
-    const responce = await axios.delete(url)
-    console.log("category delete successfull")
+    console.log(error);
   }
-  catch(error){
-    console.log("category delete failed:",error.message)
+};
+
+// ==============================
+// PRODUCT API START
+// ==============================
+
+export const GetProduct = async () => {
+  try {
+    const response = await axios.get(
+      `${localurl}/api/product`
+    );
+
+    return response.data.data;
+  } catch (error) {
+    toast.error("Failed to fetch products");
+
+    console.log(error);
   }
-}
+};
 
-export const UpdateCategory = async (id,data)=>{
-  try{
-    const responce = await axios.put(`${localurl}/api/update/category/${id}`,data,{
-      headers:{"Content-Type": "multipart/form-data"}
-    });
+export const PostProduct = async (data) => {
+  try {
+    const url = `${localurl}/api/post/product`;
 
-    console.log("category data update successfull:",responce)
+    await axios.post(url, data);
+
+    toast.success("Product added successfully");
+  } catch (error) {
+    toast.error("Product add failed");
+
+    console.log(error);
   }
-  catch(error){
-    console.log("category data update failed:",error)
-  }
-}
-
-// category api end
-
-
-//product type api start 
-export const GetProductType = async ()=>{
-  try{
-    const responce = await axios.get(`${localurl}/api/product-type`);
-    return responce.data.data
-  }
-  catch(error){
-    console.log("product type data get failed:",error)
-  }
-}
-
-export const PostProductType= async (data)=>{
-  try{
-    const responce = await axios.post(`${localurl}/api/post/product-type`,{
-      name:data
-    });
-
-    console.log("product type data post successfull",responce)
-  }
-  catch(error){
-    console.log("product type data post failed:",error)
-  }
-}
-
-
-export const DeleteProductType = async (id)=>{
-  const url = `${localurl}/api/delete/product-type/${id}`;
-  try{
-    const responce = await axios.delete(url)
-    console.log("product type delete successfull",responce)
-  }
-  catch(error){
-    console.log("product type delete failed:",error)
-  }
-}
-
-export const UpdateProductType = async (id,data)=>{
-  const url = `${localurl}/api/update/product-type`;
-  try{
-    const responce = await axios.put(url,{
-      id:id,
-      name:data.name,
-      isActive:data.isActive,
-    })
-    console.log("product type update successfull",responce)
-  }
-  catch(error){
-    console.log("product type udpate failed:",error)
-  }
-}
-//product type api end 
-
-//product add api start 
-
-export const GetProduct = async ()=>{
-  try{
-    const responce = await axios.get(`${localurl}/api/product`);
-    return responce.data.data
-  }
-  catch(error){
-    console.log("product type data get failed:",error)
-  }
-}
-
-export const PostProduct = async (data)=>{
-  // const {name, description, weight, stock, price, category, ingredients, image1,image2,image3,image4} = data;
-  try{
-    const url = `${localurl}/api/post/product`
-    const responce = await axios.post(url,data)
-    console.log("product add successfull",responce)
-  }
-  catch(error){
-    console.log("product add failed",error)
-  }
-}
-
-
-
-//product add api end 
+};

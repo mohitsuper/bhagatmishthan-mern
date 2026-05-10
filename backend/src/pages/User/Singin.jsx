@@ -51,7 +51,7 @@ export default function Singin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf7ff] p-6 md:p-10">
+    <div className="min-h-screen  md:p-10">
 
       <Card className="border border-[#9C21FA]/20 shadow-2xl rounded-3xl bg-white">
         <CardContent className="p-8">
