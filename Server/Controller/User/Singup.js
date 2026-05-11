@@ -249,13 +249,14 @@ const loginPost = async (req, res) => {
 
 
 const UserDelete = async (req,res)=>{
+
   try{
-    const {id} = req.body;
-    const deleteUser = await SingupModel.deleteOne({id});
+    const { id } = req.params;
+    const deleteUser = await SingupModel.deleteOne({_id: id});
     res.send({
             status:1,
             message:"Delete user successfull",
-            data:responce
+            data:deleteUser
       })
   }
   catch(error){

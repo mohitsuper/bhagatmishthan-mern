@@ -42,9 +42,9 @@ export const GetUserInfo = async()=>{
     }
 }
 
-export const LoginUser = async ()=>{
+export const LoginUser = async (data)=>{
         try{
-        const responce = await axios.post(`${baseurl}/login`,data)
+        const responce = await axios.post(`${baseurl}/post/login`,data)
         toast.success('Login successfull')
         return responce.data.data || [];
     }

@@ -62,9 +62,7 @@ export const TopbarIsActive = async (id, isActive) => {
       isActive,
     });
 
-    toast.success(
-      `Topbar ${isActive ? "Activated" : "Deactivated"}`
-    );
+    toast.success(`Topbar ${isActive ? "Activated" : "Deactivated"}`);
   } catch (error) {
     toast.error("Topbar status update failed");
 
@@ -104,17 +102,15 @@ export const SinginUserData = async () => {
   }
 };
 
-
 export const DeleteUser = async (id) => {
   try {
-    const url = `${localurl}/api/delete/user`;
+    const url = `${localurl}/api/delete/user/${id}`;
 
-    const response = await axios.delete(url,id);
-    if(response.data.status === 1){
-      toast.success("Delete user successfull")
+    const response = await axios.delete(url);
+    if (response.data.status === 1) {
+      toast.success("Delete user successfull");
     }
     return response.data.data;
-
   } catch (error) {
     toast.error("Delete user failed");
 
@@ -126,7 +122,7 @@ export const DeleteUser = async (id) => {
 // ==============================
 
 export const PostHeroBanner = async (data) => {
-  console.log('data',await data)
+  console.log("data", await data);
   try {
     const url = `${localurl}/api/post/banner`;
 
@@ -196,9 +192,7 @@ export const UpdateHeroImage = async (data) => {
 
 export const GetCategory = async () => {
   try {
-    const response = await axios.get(
-      `${localurl}/api/category`
-    );
+    const response = await axios.get(`${localurl}/api/category`);
 
     return response.data.data;
   } catch (error) {
@@ -210,15 +204,11 @@ export const GetCategory = async () => {
 
 export const PostCategory = async (data) => {
   try {
-    await axios.post(
-      `${localurl}/api/post/category`,
-      data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    await axios.post(`${localurl}/api/post/category`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     toast.success("Category added successfully");
   } catch (error) {
@@ -244,15 +234,11 @@ export const DeleteCategory = async (id) => {
 
 export const UpdateCategory = async (id, data) => {
   try {
-    await axios.put(
-      `${localurl}/api/update/category/${id}`,
-      data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    await axios.put(`${localurl}/api/update/category/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     toast.success("Category updated successfully");
   } catch (error) {
@@ -268,9 +254,7 @@ export const UpdateCategory = async (id, data) => {
 
 export const GetProductType = async () => {
   try {
-    const response = await axios.get(
-      `${localurl}/api/product-type`
-    );
+    const response = await axios.get(`${localurl}/api/product-type`);
 
     return response.data.data;
   } catch (error) {
@@ -282,12 +266,9 @@ export const GetProductType = async () => {
 
 export const PostProductType = async (data) => {
   try {
-    await axios.post(
-      `${localurl}/api/post/product-type`,
-      {
-        name: data,
-      }
-    );
+    await axios.post(`${localurl}/api/post/product-type`, {
+      name: data,
+    });
 
     toast.success("Product type added successfully");
   } catch (error) {
@@ -335,9 +316,7 @@ export const UpdateProductType = async (id, data) => {
 
 export const GetProduct = async () => {
   try {
-    const response = await axios.get(
-      `${localurl}/api/product`
-    );
+    const response = await axios.get(`${localurl}/api/product`);
 
     return response.data.data;
   } catch (error) {
