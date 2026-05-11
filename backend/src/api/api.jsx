@@ -104,6 +104,23 @@ export const SinginUserData = async () => {
   }
 };
 
+
+export const DeleteUser = async (id) => {
+  try {
+    const url = `${localurl}/api/delete/user`;
+
+    const response = await axios.delete(url,id);
+    if(response.data.status === 1){
+      toast.success("Delete user successfull")
+    }
+    return response.data.data;
+
+  } catch (error) {
+    toast.error("Delete user failed");
+
+    console.log(error);
+  }
+};
 // ==============================
 // HERO BANNER API START
 // ==============================

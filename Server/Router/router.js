@@ -54,6 +54,7 @@ router.put('/update/product-type',UpdateProductType)
 router.get('/singup',singup)
 router.post('/post/singup' ,singupPost)
 router.post('/post/login' ,loginPost)
+router.delete('/delete/user' ,UserDelete)
 //singin end
 
 

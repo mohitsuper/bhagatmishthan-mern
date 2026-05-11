@@ -20,9 +20,14 @@ export const PostSingUp = async (data)=>{
         const responce = await axios.post(`${baseurl}/post/singup`,{
             username,email,password
         })
-        alert("singup successfull done!")
+        console.log("res",responce)
+        if(responce.data.status ===0){
+            toast.warning(responce.data.message)
+        }
+        toast.success("singup successfull done!")
     }
     catch(error){
+        toast.failed("singup successfull done!")
         console.log("singup error",error)
     }
 }

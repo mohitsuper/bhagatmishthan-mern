@@ -248,4 +248,19 @@ const loginPost = async (req, res) => {
 };
 
 
+const UserDelete = async (req,res)=>{
+  try{
+    const {id} = req.body;
+    const deleteUser = await SingupModel.deleteOne({id});
+    res.send({
+            status:1,
+            message:"Delete user successfull",
+            data:responce
+      })
+  }
+  catch(error){
+    console.log(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
 module.exports = { singupPost, singup,loginPost }

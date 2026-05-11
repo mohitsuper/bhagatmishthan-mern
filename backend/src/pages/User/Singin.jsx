@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SinginUserData } from "../../api/api";
+import { DeleteUser, SinginUserData } from "../../api/api";
 
 // shadcn ui
 import { Button } from "@/components/ui/button";
@@ -49,7 +49,14 @@ export default function Singin() {
       setLoading(false);
     }
   };
-
+  const handleDeleteUser = async(id)=>{
+    try{
+      const response = await DeleteUser(id)
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
   return (
     <div className="min-h-screen  md:p-10">
 
@@ -133,9 +140,7 @@ export default function Singin() {
                     Role
                   </TableHead>
 
-                  <TableHead className="text-white">
-                    Password
-                  </TableHead>
+                  
 
                   <TableHead className="text-white text-right">
                     Actions
@@ -203,32 +208,7 @@ export default function Singin() {
                         </span>
                       </TableCell>
 
-                      {/* password */}
-                      <TableCell className="font-mono text-sm">
-                        <div className="flex items-center gap-2">
-
-                          {showPasswords ? (
-                            <>
-                              <Eye size={16} className="text-green-500" />
-
-                              <span className="break-all text-black">
-                                {user.password}
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <EyeOff
-                                size={16}
-                                className="text-gray-400"
-                              />
-
-                              <span className="tracking-widest text-gray-700">
-                                {maskPassword(user.password)}
-                              </span>
-                            </>
-                          )}
-                        </div>
-                      </TableCell>
+                      
 
                       {/* actions */}
                       <TableCell className="text-right">
@@ -264,6 +244,16 @@ export default function Singin() {
                               className="mr-1 text-gray-600"
                             />
                             Copy
+                          </Button>
+
+                          {/* delete */}
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={()=>handleDeleteUser(user._id)}
+                            className="border-gray-200 hover:bg-gray-50"
+                          >
+                            Delete user
                           </Button>
 
                         </div>
