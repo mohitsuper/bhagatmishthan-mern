@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { TopBar, TopbarPost, TopbarDelete, TopbarUpdate, TopBarGetWeb } = require('../Controller/Topbar/Topbar');
-const { singupPost, singup, loginPost } = require('../Controller/User/Singup');
+const { singupPost, singup, loginPost, UserDelete } = require('../Controller/User/Singup');
 const { Card, PostCard, DeleteCard } = require('../Controller/Card/Card');
 const { Cardupload } = require('../Middelware/ImageUplode/CardImages');
 const { Favourite, PostFavourite } = require('../Controller/Federated/Federated');

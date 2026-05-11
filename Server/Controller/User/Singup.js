@@ -263,4 +263,4 @@ const UserDelete = async (req,res)=>{
     return res.status(500).json({ message: "Server error" });
   }
 }
-module.exports = { singupPost, singup,loginPost }
+module.exports = { singupPost, singup,loginPost,UserDelete }
