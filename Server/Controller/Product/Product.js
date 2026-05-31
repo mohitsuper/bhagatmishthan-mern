@@ -2,16 +2,16 @@ const { ProductModel } = require("../../Modle/BestSeller/BestSeller");
 
 
 const GetProduct = async (req, res) => {
-    try{
+    try {
         const responce = await ProductModel.find();
         res.send({
             status: 0,
             messaged: "Product Get Success",
-            data:responce,
+            data: responce,
         })
     }
-    catch(error){
-         res.send({
+    catch (error) {
+        res.send({
             status: 0,
             messaged: "Product Get failed",
             error: error.message
@@ -20,16 +20,16 @@ const GetProduct = async (req, res) => {
 }
 
 const GetWebProduct = async (req, res) => {
-    try{
-        const responce = await ProductModel.find({isActive:true});
+    try {
+        const responce = await ProductModel.find({ isActive: true });
         res.send({
             status: 0,
             messaged: "Product Get Success",
-            data:responce,
+            data: responce,
         })
     }
-    catch(error){
-         res.send({
+    catch (error) {
+        res.send({
             status: 0,
             messaged: "Product Get failed",
             error: error.message
@@ -38,16 +38,16 @@ const GetWebProduct = async (req, res) => {
 }
 const PostProduct = async (req, res) => {
     try {
-        const { title, description, weight, stock, price, ingredients,category, productType } = req.body;
+        const { title, description, weight, stock, price, ingredients, category, productType } = req.body;
         console.log(req.files)
         // const {mainimage,subimage} = req.file;
         const data = new ProductModel({
             title, description, weight, stock, price, category,
             productType,
             ingredients, subimage: [
-                req.files[0].path,req.files[1].path,req.files[2].path,req.files[3].path
+                req.files[0].path, req.files[1].path, req.files[2].path, req.files[3].path
             ],
-            
+
         })
         const responce = await data.save();
         res.send({
@@ -65,4 +65,37 @@ const PostProduct = async (req, res) => {
     }
 }
 
-module.exports = { GetProduct,PostProduct ,GetWebProduct}
+const searchProduct = async (req, res) => {
+    try {
+        const { searchTerm } = req.query;
+        console.log(searchTerm)
+        if (searchTerm) {
+            const response = await ProductModel.find({
+                    title: { $regex: searchTerm, $options: "i" }
+                }).limit(5); 
+                console.log('search response', response)
+                res.send({
+                    status: 1,
+                    messaged: "Product search success",
+                    data: responce,
+                })
+        }
+        else {
+            const responce = await ProductModel.find().limit(5);
+            res.send({
+                status: 1,
+                messaged: "Product search success",
+                data: responce,
+            })
+        }
+    }
+    catch (error) {
+        res.send({
+            status: 0,
+            messaged: "Product search failed",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { GetProduct, PostProduct, GetWebProduct, searchProduct }

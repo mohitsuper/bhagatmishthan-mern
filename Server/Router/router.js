@@ -8,7 +8,7 @@ const { Cardupload } = require('../Middelware/ImageUplode/CardImages');
 const { Favourite, PostFavourite } = require('../Controller/Federated/Federated');
 const { PostHeroBanner, HeroBanner, HeroBannerDelete, HeroBannerUpdate, GetHeroBanner } = require('../Controller/Hero/HeroBanner');
 const { HeroUplode } = require('../Middelware/ImageUplode/HeroBanner');
-const { Product, PostBestSeller, GetBestSeller, GetProduct, PostProduct, GetWebProduct } = require('../Controller/Product/Product');
+const { searchProduct,Product, PostBestSeller, GetBestSeller, GetProduct, PostProduct, GetWebProduct } = require('../Controller/Product/Product');
 const { ProductImageUplode } = require('../Middelware/ProductImage');
 const { PostCategory, Category, CategoryDelete, CategoryUpdate, GetCategory } = require('../Controller/Category/Category');
 const { CategoryUplode } = require('../Middelware/ImageUplode/CategoryImage');
@@ -78,7 +78,9 @@ router.get('/product',GetProduct)
 router.get('/web/product',GetWebProduct)
 //add best Seller product end
 
-
+//search product start
+router.get('/search/product',searchProduct)
+//search product end
 
 
 module.exports = router;

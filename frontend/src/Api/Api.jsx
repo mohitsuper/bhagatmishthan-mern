@@ -2,7 +2,7 @@ import axios from "axios"
 
 import {toast} from 'react-toastify'
 
-const baseurl = import.meta.env.VITE_BASEURL;
+const baseurl = import.meta.env.VITE_LOCALURL;
 export const GetTopbarData =async ()=>{
     try{
         const responce = await axios.get(`${baseurl}/web/topbar`)
@@ -148,4 +148,19 @@ export const GetProductType = async ()=>{
         console.log("product get failed")
     }
 
+}
+
+export const getSearchTerm = async (searchTerm)=>{
+    try{
+        console.log("search term",searchTerm)
+        const responce = await axios.get(`${baseurl}/search/product`,{
+            params:{
+                searchTerm: searchTerm,
+            }
+        })
+        return responce.data.data || [];
+    }   
+    catch(error){
+        console.log("search product failed")
+    }
 }

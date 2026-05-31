@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { NavLinks } from "../../data/Navbar/Navbar";
 import { ContactInfo } from "../../data/contact/ContactData";
-import { GetCard, GetCategory } from "../../Api/Api";
+import { GetCard, GetCategory, getSearchTerm } from "../../Api/Api";
 import AddToCard from "./AddToCard";
 import FevouriteCard from "./FevouriteCard";
 import { AddToCardVal } from "../../UseContext/AddToCardContext";
@@ -19,7 +19,8 @@ export default function Header() {
   const [allCategory, setAllCategory] = useState([]);
   const [IsMobile, setIsMobile] = useState(false);
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const { count,setAddCardData,addCardData,setCount,addCardOpen, setAddCardOpen } = useContext(AddToCardVal);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { count, setAddCardData, addCardData, setCount, addCardOpen, setAddCardOpen } = useContext(AddToCardVal);
   const { setFavIsOpen } = useContext(FavouriteContext);
   const handleReload = (data) => {
     setIsReload(data);
@@ -35,6 +36,11 @@ export default function Header() {
     setAddCardData(response || []);
     setCount(response.length || 0)
   };
+
+  const handleSearch = async (search) => {
+     const response = await getSearchTerm(search);
+     console.log(response)
+  }
 
   useEffect(() => {
     const changed = () => setIsMobile(window.innerWidth <= 992);
@@ -83,11 +89,10 @@ export default function Header() {
                       to={v.link}
                       className={({ isActive }) =>
                         `flex items-center gap-1 text-[14px] xl:text-[15px] font-semibold transition-all duration-300
-                      ${
-                        isActive
+                      ${isActive
                           ? "text-purple-600"
                           : "text-zinc-800 hover:text-purple-600"
-                      }`
+                        }`
                       }
                     >
                       {v.name}
@@ -150,14 +155,22 @@ export default function Header() {
 
           {/* RIGHT SIDE */}
           <div className="flex items-center gap-3 sm:gap-5">
-            {/* SEARCH BAR */}
-            <div className="hidden xl:flex items-center bg-zinc-100 rounded-full px-4 h-[46px] w-[240px] 2xl:w-[280px]">
-              <i className="fa-solid fa-magnifying-glass text-zinc-500 text-sm"></i>
+            <div
+              className={`hidden xl:flex items-center relative overflow-hidden transition-all duration-300 ${issetSearchOpen ? "w-[200px]" : "w-fit"
+                }`}
+            >
+              <i className="fa-solid fa-magnifying-glass mr-2" onClick={() => setIsSearchOpen(!issetSearchOpen)}></i>
 
               <input
                 type="text"
+                name="searchProduct"
                 placeholder="Search products..."
-                className="bg-transparent outline-none px-3 text-sm w-full"
+                className={`bg-transparent outline-none text-sm transition-all duration-300 ${issetSearchOpen ? "w-full opacity-100" : "w-0 opacity-0"
+                  }`}
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  handleSearch(e.target.value);}}
               />
             </div>
 
@@ -217,7 +230,7 @@ export default function Header() {
             </div>
           </div>
           <FavouriteCard />
-          <AddToCard/>
+          <AddToCard />
         </div>
       </div>
     </header>

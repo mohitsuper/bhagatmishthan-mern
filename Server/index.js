@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000
 app.use(cors())
 app.use(express.json());
 const url = `${process.env.LOCAL_BASEURL}`
-
+console.log("url",url)
 const baseurl = url;
 module.exports={baseurl}
 
